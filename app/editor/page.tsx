@@ -1,4 +1,4 @@
-import { ResumeEditor } from "@/components/resume-editor";
+import { ResumeEditor } from "@/components/editor/resume-editor";
 
 export default function EditorPage() {
   return (

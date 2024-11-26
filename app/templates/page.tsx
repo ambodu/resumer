@@ -1,4 +1,4 @@
-import { TemplateCard } from "@/components/template-card";
+import { TemplateCard } from "@/components/templates/template-card";
 import { resumeTemplates } from "@/lib/templates";
 
 export default function TemplatesPage() {
