@@ -21,12 +21,12 @@ export function ResumeEditor() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-      <div className="border-r border-gray-200 dark:border-gray-800 overflow-y-auto h-screen p-6">
+      <div className="border-r border-gray-200 dark:bg-slate-50 overflow-y-auto h-screen p-6">
         <div className="max-w-2xl mx-auto">
           <ResumeForm resumeData={resumeData} setResumeData={setResumeData} />
         </div>
       </div>
-      <div className="h-screen bg-gray-50 dark:bg-gray-900 overflow-y-auto">
+      <div className="h-screen bg-gray-50 dark:bg-slate-50 overflow-y-auto">
         <ResumePreview resumeData={resumeData} />
       </div>
     </div>

@@ -25,9 +25,9 @@ export function TemplateSelector({ onSelectTemplate }: TemplateSelectorProps) {
           <SelectValue placeholder="Choose template" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="empty">Empty Template</SelectItem>
-          <SelectItem value="software">Software Engineer</SelectItem>
-          <SelectItem value="marketing">Marketing Professional</SelectItem>
+          <SelectItem value="empty" className="dark:text-zinc-100">Empty Template</SelectItem>
+          <SelectItem value="software" className="dark:text-zinc-100">Software Engineer</SelectItem>
+          <SelectItem value="marketing" className="dark:text-zinc-100">Marketing Professional</SelectItem>
         </SelectContent>
       </Select>
     </div>
