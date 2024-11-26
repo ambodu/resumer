@@ -163,7 +163,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
           </Button>
         </div>
       </div>
-      <div className="max-w-[800px] mx-auto space-y-8 bg-white dark:bg-gray-800 p-8 shadow-lg rounded-lg" ref={render_el}>
+      <div className="max-w-[800px] mx-auto space-y-8 bg-white dark:bg-slate-50 p-8 shadow-lg rounded-lg" ref={render_el}>
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">{resumeData.personalInfo.name}</h1>
           <div className="text-gray-600 dark:text-gray-400 space-x-4">

@@ -5,9 +5,9 @@ import { FileText, Layout, PenLine } from "lucide-react";
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-white">
         <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl">
+          <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl  ">
             Create Your Professional Resume
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -30,29 +30,29 @@ export default function Home() {
         </div>
       </div>
       
-      <section className="py-16 px-6 bg-white dark:bg-gray-900">
+      <section className="py-16 px-6 bg-white dark:from-gray-900 dark:to-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Our Resume Builder?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12  ">Why Choose Our Resume Builder?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center space-y-4">
               <div className="w-12 h-12 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
                 <Layout className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold">Professional Templates</h3>
+              <h3 className="text-xl font-semibold  ">Professional Templates</h3>
               <p className="text-gray-600 dark:text-gray-400">Choose from our collection of professionally designed templates</p>
             </div>
             <div className="text-center space-y-4">
               <div className="w-12 h-12 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
                 <PenLine className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold">Easy to Customize</h3>
+              <h3 className="text-xl font-semibold  ">Easy to Customize</h3>
               <p className="text-gray-600 dark:text-gray-400">Intuitive editor with real-time preview of your changes</p>
             </div>
             <div className="text-center space-y-4">
               <div className="w-12 h-12 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
                 <FileText className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold">Export to PDF</h3>
+              <h3 className="text-xl font-semibold  ">Export to PDF</h3>
               <p className="text-gray-600 dark:text-gray-400">Download your resume in PDF format, ready to send</p>
             </div>
           </div>
