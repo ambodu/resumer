@@ -1,0 +1,54 @@
+{
+    "nav": {
+      "home": "首页",
+      "templates": "模板",
+      "editor": "编辑器"
+    },
+    "home": {
+      "title": "创建您的专业简历",
+      "subtitle": "从专业设计的模板中选择，使用我们易于使用的编辑器自定义您的简历。脱颖而出，获得理想的工作。",
+      "browseTemplates": "浏览模板",
+      "startFromScratch": "从头开始"
+    },
+    "editor": {
+      "title": "简历编辑器",
+      "subtitle": "创建和预览您的专业简历",
+      "tabs": {
+        "edit": "编辑",
+        "preview": "预览"
+      },
+      "personal": {
+        "title": "个人信息",
+        "name": "姓名",
+        "email": "邮箱",
+        "phone": "电话",
+        "location": "地址",
+        "summary": "个人简介"
+      },
+      "experience": {
+        "title": "工作经验",
+        "add": "添加经验",
+        "company": "公司",
+        "position": "职位",
+        "startDate": "开始日期",
+        "endDate": "结束日期",
+        "description": "描述"
+      },
+      "education": {
+        "title": "教育经历",
+        "add": "添加教育",
+        "school": "学校",
+        "degree": "学位",
+        "field": "专业",
+        "graduationDate": "毕业日期"
+      },
+      "skills": {
+        "title": "技能",
+        "add": "添加技能",
+        "placeholder": "输入技能"
+      }
+    },
+    "preview": {
+      "download": "下载PDF"
+    }
+  }

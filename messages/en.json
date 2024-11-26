@@ -1,0 +1,54 @@
+{
+    "nav": {
+      "home": "Home",
+      "templates": "Templates",
+      "editor": "Editor"
+    },
+    "home": {
+      "title": "Create Your Professional Resume",
+      "subtitle": "Choose from professionally designed templates and customize your resume with our easy-to-use editor. Stand out from the crowd and land your dream job.",
+      "browseTemplates": "Browse Templates",
+      "startFromScratch": "Start from Scratch"
+    },
+    "editor": {
+      "title": "Resume Editor",
+      "subtitle": "Create and preview your professional resume",
+      "tabs": {
+        "edit": "Edit",
+        "preview": "Preview"
+      },
+      "personal": {
+        "title": "Personal Information",
+        "name": "Full Name",
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Location",
+        "summary": "Professional Summary"
+      },
+      "experience": {
+        "title": "Work Experience",
+        "add": "Add Experience",
+        "company": "Company",
+        "position": "Position",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "description": "Description"
+      },
+      "education": {
+        "title": "Education",
+        "add": "Add Education",
+        "school": "School",
+        "degree": "Degree",
+        "field": "Field of Study",
+        "graduationDate": "Graduation Date"
+      },
+      "skills": {
+        "title": "Skills",
+        "add": "Add Skill",
+        "placeholder": "Enter a skill"
+      }
+    },
+    "preview": {
+      "download": "Download PDF"
+    }
+  }
