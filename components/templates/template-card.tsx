@@ -22,10 +22,10 @@ export function TemplateCard({ id, template }: TemplateCardProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle className="line-clamp-1">{template.personalInfo.name || `${id.charAt(0).toUpperCase() + id.slice(1)} Template`}</CardTitle>
+        <CardTitle className="line-clamp-1 dark:text-gray-200">{template.personalInfo.name || `${id.charAt(0).toUpperCase() + id.slice(1)} Template`}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">
-        <div className="aspect-[8.5/11] bg-white dark:bg-slate-300 rounded-lg p-4 shadow-sm">
+        <div className="aspect-[8.5/11] bg-white rounded-lg p-4 shadow-sm dark:bg-black">
           <div className="space-y-2">
             <div className="h-6 bg-gray-100 dark:bg-gray-700 rounded w-1/2"></div>
             <div className="h-4 bg-gray-100 dark:bg-gray-700 rounded w-1/3"></div>
@@ -39,7 +39,7 @@ export function TemplateCard({ id, template }: TemplateCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleUseTemplate} className="w-full">
+        <Button onClick={handleUseTemplate} className="w-full dark:bg-gray-500 dark:text-gray-100">
           Use Template
         </Button>
       </CardFooter>

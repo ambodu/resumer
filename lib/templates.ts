@@ -55,6 +55,9 @@ export const resumeTemplates: Record<string, ResumeData> = {
       "GraphQL",
       "Git",
     ],
+    style: [
+      
+    ]
   },
   marketing: {
     personalInfo: {

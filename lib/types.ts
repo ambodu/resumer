@@ -21,9 +21,16 @@ export interface Education {
   graduationDate: string;
 }
 
+export interface Styles {
+  fontFamily: string;
+  fontSize: string;
+  color: string;
+}
+
 export interface ResumeData {
   personalInfo: PersonalInfo;
   experience: Experience[];
   education: Education[];
   skills: string[];
+  style?: Styles[]
 }

@@ -99,6 +99,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
             <Label htmlFor="name">Full Name</Label>
             <Input
               id="name"
+              className="dark:border-gray-300"
               value={resumeData.personalInfo.name}
               onChange={(e) => updatePersonalInfo("name", e.target.value)}
             />
@@ -108,6 +109,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
             <Input
               id="email"
               type="email"
+              className="dark:border-gray-300"
               value={resumeData.personalInfo.email}
               onChange={(e) => updatePersonalInfo("email", e.target.value)}
             />
@@ -116,6 +118,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
             <Label htmlFor="phone">Phone</Label>
             <Input
               id="phone"
+              className="dark:border-gray-300"
               value={resumeData.personalInfo.phone}
               onChange={(e) => updatePersonalInfo("phone", e.target.value)}
             />
@@ -124,6 +127,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
             <Label htmlFor="location">Location</Label>
             <Input
               id="location"
+              className="dark:border-gray-300"
               value={resumeData.personalInfo.location}
               onChange={(e) => updatePersonalInfo("location", e.target.value)}
             />
@@ -133,24 +137,25 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
           <Label htmlFor="summary">Professional Summary</Label>
           <Textarea
             id="summary"
+            className="dark:border-gray-300"
             value={resumeData.personalInfo.summary}
             onChange={(e) => updatePersonalInfo("summary", e.target.value)}
           />
         </div>
       </div>
 
-      <Separator />
+      <Separator className="dark:bg-gray-300"/>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Work Experience</h2>
-          <Button onClick={addExperience} variant="outline" size="sm">
-            <PlusCircle className="mr-2 h-4 w-4" />
+          <Button onClick={addExperience} variant="outline" size="sm" className="dark:border-gray-400">
+            <PlusCircle className="mr-2 h-4 w-4 " />
             Add Experience
           </Button>
         </div>
         {resumeData.experience.map((exp, index) => (
-          <div key={index} className="space-y-4 rounded-lg border p-4">
+          <div key={index} className="space-y-4 rounded-lg border p-4 ">
             <div className="flex justify-end">
               <Button
                 onClick={() => removeExperience(index)}
@@ -164,6 +169,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>Company</Label>
                 <Input
+                  className="dark:border-gray-300"                  
                   value={exp.company}
                   onChange={(e) =>
                     updateExperience(index, "company", e.target.value)
@@ -173,6 +179,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>Position</Label>
                 <Input
+                  className="dark:border-gray-300"                  
                   value={exp.position}
                   onChange={(e) =>
                     updateExperience(index, "position", e.target.value)
@@ -182,6 +189,8 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>Start Date</Label>
                 <Input
+                  className="dark:border-gray-300"                                  
+
                   type="date"
                   value={exp.startDate}
                   onChange={(e) =>
@@ -192,6 +201,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>End Date</Label>
                 <Input
+                  className="dark:border-gray-300"                                  
                   type="date"
                   value={exp.endDate}
                   onChange={(e) =>
@@ -203,6 +213,8 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
             <div className="space-y-2">
               <Label>Description</Label>
               <Textarea
+                                className="dark:border-gray-300"
+
                 value={exp.description}
                 onChange={(e) =>
                   updateExperience(index, "description", e.target.value)
@@ -213,7 +225,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
         ))}
       </div>
 
-      <Separator />
+      <Separator className="dark:bg-gray-300"/>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -238,7 +250,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>School</Label>
                 <Input
-                  value={edu.school}
+                  className="dark:border-gray-300"                  value={edu.school}
                   onChange={(e) =>
                     updateEducation(index, "school", e.target.value)
                   }
@@ -247,7 +259,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>Degree</Label>
                 <Input
-                  value={edu.degree}
+                  className="dark:border-gray-300"                  value={edu.degree}
                   onChange={(e) =>
                     updateEducation(index, "degree", e.target.value)
                   }
@@ -256,14 +268,14 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
               <div className="space-y-2">
                 <Label>Field of Study</Label>
                 <Input
-                  value={edu.field}
+                  className="dark:border-gray-300"                  value={edu.field}
                   onChange={(e) => updateEducation(index, "field", e.target.value)}
                 />
               </div>
               <div className="space-y-2">
                 <Label>Graduation Date</Label>
                 <Input
-                  type="date"
+                  className="dark:border-gray-300"                  type="date"
                   value={edu.graduationDate}
                   onChange={(e) =>
                     updateEducation(index, "graduationDate", e.target.value)
@@ -275,7 +287,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
         ))}
       </div>
 
-      <Separator />
+      <Separator className="dark:bg-gray-300"/>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -289,6 +301,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
           {resumeData.skills.map((skill, index) => (
             <div key={index} className="flex items-center space-x-2">
               <Input
+                className="dark:border-gray-300"
                 value={skill}
                 onChange={(e) => updateSkill(index, e.target.value)}
                 placeholder="Enter a skill"

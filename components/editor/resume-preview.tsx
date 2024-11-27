@@ -53,8 +53,8 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
       }
 
-      .border-b {
-        border-bottom: 1px solid #000;
+      . border-b dark:border-gray-300 {
+         border-b dark:border-gray-300ottom: 1px solid #000;
       }
 
       .flex {
@@ -149,8 +149,8 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex sticky top-0 z-10 bg-gray-50 p-4 gap-8 justify-between align-middle">
+    <div className="p-6 space-y-6 dark:text-white ">
+      <div className="flex sticky top-0 z-10 bg-gray-50 dark:bg-black p-4 gap-8 justify-between align-middle">
         <h1 className="text-4xl flex align-middle">Preview</h1>
         <div className="btn-container flex gap-5 flex-wrap justify-end">
           <Button onClick={downloadPDF} className="">
@@ -163,7 +163,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
           </Button>
         </div>
       </div>
-      <div className="max-w-[800px] mx-auto space-y-8 bg-white dark:bg-slate-50 p-8 shadow-lg rounded-lg" ref={render_el}>
+      <div className="max-w-[800px] mx-auto space-y-8 bg-white dark:bg-black p-8 shadow-lg rounded-lg" ref={render_el}>
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">{resumeData.personalInfo.name}</h1>
           <div className="text-gray-600 dark:text-gray-400 space-x-4">
@@ -181,7 +181,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         {resumeData.personalInfo.summary && (
           <div className="space-y-2">
-            <h2 className="text-xl font-semibold border-b pb-2">
+            <h2 className="text-xl font-semibold  border-b dark:border-gray-300 pb-2">
               Professional Summary
             </h2>
             <p className="text-gray-700 dark:text-gray-300">{resumeData.personalInfo.summary}</p>
@@ -189,7 +189,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
         )}
 
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold border-b pb-2">
+            <h2 className="text-xl font-semibold  border-b dark:border-gray-300 pb-2">
               Work Experience
             </h2>
             {resumeData.experience.map((exp, index) => (
@@ -213,7 +213,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold border-b pb-2">Education</h2>
+            <h2 className="text-xl font-semibold  border-b dark:border-gray-300 pb-2">Education</h2>
             {resumeData.education.map((edu, index) => (
               <div key={index} className="space-y-1">
                 <div className="flex justify-between items-start">
@@ -235,7 +235,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
         
           <div className="space-y-2">
-            <h2 className="text-xl font-semibold border-b pb-2">Skills</h2>
+            <h2 className="text-xl font-semibold  border-b dark:border-gray-300 pb-2">Skills</h2>
             <div className="flex flex-wrap gap-2">
               {resumeData.skills.map((skill, index) => (
                 <span
