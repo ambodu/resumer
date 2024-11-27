@@ -35,12 +35,12 @@ export default function Navbar() {
   ];
 
   return (
-      <nav className="block w-full max-w-screen px-4 py-4 mx-auto bg-white dark:bg-black bg-opacity-90 sticky top-0 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
-        <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800"  ref={nav_el}
+      <nav className="block w-full max-w-screen px-4 py-4 mx-auto bg-white dark:bg-black dark:bg-opacity-70 bg-opacity-90 sticky top-0 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
+        <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800 "  ref={nav_el}
         >
           <Link
             href="/"
-            className="mr-4 block cursor-pointer py-1.5 text-cyan-950 font-bold text-4xl dark:text-gray-300 dark:hover:text-gray-100"
+            className="mr-4 block cursor-pointer py-1.5 text-cyan-950 font-bold text-4xl dark:text-gray-100 dark:hover:text-white"
           >
             Resumer
           </Link>

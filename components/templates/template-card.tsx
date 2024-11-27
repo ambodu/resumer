@@ -39,7 +39,7 @@ export function TemplateCard({ id, template }: TemplateCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleUseTemplate} className="w-full dark:bg-gray-500 dark:text-gray-100">
+        <Button onClick={handleUseTemplate} className="w-full dark:bg-sky-600 dark:text-gray-100">
           Use Template
         </Button>
       </CardFooter>

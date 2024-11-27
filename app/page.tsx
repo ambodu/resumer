@@ -5,7 +5,7 @@ import { FileText, Layout, PenLine } from "lucide-react";
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b bg-white dark:bg-black">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl dark:text-zinc-100">
             Create Your Professional Resume
@@ -30,7 +30,7 @@ export default function Home() {
         </div>
       </div>
       
-      <section className="py-16 px-6 bg-white dark:bg-gray-900">
+      <section className="py-16 px-6 bg-white dark:bg-black">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12 dark:text-zinc-100">Why Choose Our Resume Builder?</h2>
           <div className="grid md:grid-cols-3 gap-8">
