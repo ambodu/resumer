@@ -1,8 +1,123 @@
 {
-    "nav": {
+    "navbar": {
       "home": "Home",
       "templates": "Templates",
-      "editor": "Editor"
+      "editor": "Editor",
+      "user": "My Resumes",
+      "login": "Login",
+      "register": "Sign Up"
+    },
+    "templates": {
+      "title": "Beautiful Resume Templates",
+      "subtitle": "Choose from our carefully designed professional templates to quickly create impressive resumes",
+      "searchPlaceholder": "Search templates...",
+      "categories": {
+        "all": "All",
+        "modern": "Modern",
+        "classic": "Classic",
+        "creative": "Creative",
+        "minimal": "Minimal",
+        "professional": "Professional"
+      },
+      "noResults": {
+        "title": "No matching templates found",
+        "description": "Try adjusting your search criteria or selecting other categories"
+      },
+      "features": {
+        "title": "Why Choose Our Templates?",
+        "professional": {
+          "title": "Professional Design",
+          "description": "Carefully crafted by senior designers, meeting modern recruitment standards"
+        },
+        "smart": {
+          "title": "Smart Optimization",
+          "description": "Layout optimization based on big data analysis to improve resume pass rate"
+        },
+        "industry": {
+          "title": "Industry Customization",
+          "description": "Tailored for different industry characteristics to highlight professional skills"
+        }
+      }
+    },
+    "user": {
+      "title": "My Resumes",
+      "subtitle": "Manage all your resumes, edit and download anytime",
+      "currentResume": {
+        "title": "Currently Editing Resume",
+        "editing": "Editing",
+        "unnamed": "Unnamed Resume"
+      },
+      "actions": {
+        "continueEdit": "Continue Editing",
+        "save": "Save",
+        "edit": "Edit",
+        "download": "Download"
+      },
+      "stats": {
+        "name": "Name",
+        "experience": "Work Experience",
+        "education": "Education",
+        "skills": "Skills",
+        "items": "items",
+        "notFilled": "Not filled"
+      },
+      "lastSaved": "Last saved",
+      "quickActions": {
+        "create": {
+          "title": "Create New Resume",
+          "description": "Start from blank template",
+          "action": "Start Creating"
+        },
+        "template": {
+          "title": "Choose Template",
+          "description": "Start from professional templates",
+          "action": "Browse Templates"
+        },
+        "import": {
+          "title": "Import Resume",
+          "description": "Import existing resume from file",
+          "action": "Coming Soon"
+        }
+      },
+      "savedResumes": {
+        "title": "Saved Resumes",
+        "count": "resumes"
+      },
+      "filters": {
+        "hasExperience": "Has Experience",
+        "hasEducation": "Has Education",
+        "hasSkills": "Has Skills",
+        "recentlyModified": "Recently Modified"
+      },
+      "search": {
+        "placeholder": "Search resume name or email...",
+        "clearFilters": "Clear Filters"
+      },
+      "empty": {
+        "noResumes": {
+          "title": "No saved resumes yet",
+          "description": "Start creating your first resume!",
+          "action": "Create Resume"
+        },
+        "noResults": {
+          "title": "No matching resumes found",
+          "description": "Try adjusting search criteria or clear filters",
+          "action": "Clear Filters"
+        }
+      },
+      "resumeCard": {
+        "defaultName": "Resume",
+        "noEmail": "No email provided",
+        "experience": "exp",
+        "education": "edu",
+        "skills": "skills"
+      },
+      "confirmDelete": {
+        "title": "Delete Resume",
+        "description": "Are you sure you want to delete this resume? This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
     },
     "home": {
       "title": "Create Your Professional Resume",

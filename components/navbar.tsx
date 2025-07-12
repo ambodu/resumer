@@ -1,156 +1,246 @@
 "use client";
+
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useTheme } from "next-themes";
-import { Button } from "./ui/button";
-import { Moon, Sun } from "lucide-react";
-import { Switch } from "./ui/switch";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  FileText,
+  Home,
+  User,
+  Menu,
+  X,
+  LogIn,
+  UserPlus,
+  Sparkles,
+} from "lucide-react";
 
+import { useState, useEffect } from "react";
+import { usePathname, useParams } from "next/navigation";
+import { useResumeState } from "@/lib/hooks";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { useTranslation } from "@/components/i18n/i18n-provider";
 
-export default function Navbar() {
-  const { theme, setTheme } = useTheme();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const nav_el = useRef(null) as any
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+const Logo = () => (
+  <div className="flex items-center gap-2">
+    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+      <Sparkles className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+    </div>
+    <span className="text-white font-semibold text-base sm:text-lg hidden xs:block">
+      Resume
+    </span>
+  </div>
+);
 
-  useEffect(()=>{
-    document.addEventListener('click', (e)=>{
-        if(!isMobileMenuOpen) return
+export function Navbar() {
+  const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const params = useParams();
+  const locale = params.locale as string;
+  const { currentResume } = useResumeState();
+  const { t } = useTranslation();
 
-        if(nav_el.current instanceof HTMLElement) {
-            if(!nav_el.current.contains(e.target)) {
-                toggleMobileMenu()
-            }
-        }
-    })
-  })
-  
-  // Navigation items array
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "Templates", href: "/templates" },
-    {name: "My Templates", href: "/user"}
+    {
+      href: `/${locale}`,
+      label: t("nav.home"),
+      icon: <Home className="h-4 w-4" />,
+    },
+    {
+      href: `/${locale}/templates`,
+      label: t("nav.templates"),
+      icon: <FileText className="h-4 w-4" />,
+    },
+    {
+      href: `/${locale}/editor`,
+      label: t("nav.editor"),
+      icon: <FileText className="h-4 w-4" />,
+    },
+    {
+      href: `/${locale}/user`,
+      label: t("nav.account"),
+      icon: <User className="h-4 w-4" />,
+    },
   ];
 
+  const isActive = (href: string) => {
+    if (href === `/${locale}`)
+      return pathname === `/${locale}` || pathname === `/${locale}/`;
+    const normalized = (str: string) => str.replace(/\/$/, "");
+    return pathname.startsWith(normalized(href));
+  };
+
   return (
-      <nav className="block w-full max-w-screen px-4 py-4 mx-auto bg-white dark:bg-black dark:bg-opacity-70 bg-opacity-90 sticky top-0 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
-        <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800 "  ref={nav_el}
-        >
-          <Link
-            href="/"
-            className="mr-4 block cursor-pointer py-1.5 text-cyan-950 font-bold text-4xl dark:text-gray-100 dark:hover:text-white"
-          >
-            Resumer
+    <>
+      {/* Navbar Container */}
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-4 inset-x-0 z-50 bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl mx-auto shadow-2xl w-full max-w-screen-xl px-4 sm:px-6 py-2 sm:py-3"
+      >
+        <div className="flex items-center justify-between">
+          {/* Left: Logo */}
+          <Link href={`/${locale}`} className="shrink-0">
+            <Logo />
           </Link>
 
-          <div className="lg:hidden">
-            <button
-              className="dark:text-white relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-xs font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              onClick={toggleMobileMenu}
-              type="button"
-            >
-              <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+          {/* Middle: Desktop Navigation */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="flex gap-1 lg:gap-3">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-xs lg:text-sm flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
+                    isActive(item.href)
+                      ? "text-blue-400 bg-blue-500/10"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                  }`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  ></path>
-                </svg>
-              </span>
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          <div
-            className={`fixed top-0 left-0 min-h-screen w-64 bg-slate-100 dark:bg-black shadow-lg transform transition-transform duration-300 ease-in-out ${
-              isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-            } lg:hidden z-50`}
-          >
-            <div className="flex flex-row items-center border-b pb-4">
-              <Link
-                href="/"
-                className="cursor-pointer text-cyan-950 font-bold text-xl pt-4 ps-4 dark:text-gray-300 dark:hover:text-gray-100"
-              >
-                NEXTNEWS
-              </Link>
-              <button
-                onClick={toggleMobileMenu}
-                className="absolute top-4 right-4 text-slate-600 hover:text-cyan-950 dark:text-gray-300 dark:hover:text-gray-100"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  {item.icon}
+                  <span className="hidden lg:inline">{item.label}</span>
+                </Link>
+              ))}
             </div>
-            <ul className="flex flex-col h-full gap-4 p-4">
-              {navItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-center p-1 text-lg gap-x-2 text-slate-600 hover:text-cyan-950 dark:text-gray-300 dark:hover:text-gray-100"
-                >
-                  <Link href={item.href} className="flex items-center">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                >
-                <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 dark:text-gray-300 dark:hover:text-gray-100" />
-                </Button>
-              </li>
-            </ul>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:block">
-            <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-              {navItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-center p-1 text-lg gap-x-2 text-slate-600 hover:text-slate-900 dark:text-gray-300 dark:hover:text-gray-100"
-                >
-                  <Link href={item.href} className="flex items-center">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            <li className="flex items-center">
-                <Button
+          {/* Right: Buttons */}
+          <div className="flex items-center gap-2">
+            {currentResume?.personalInfo?.fullName && (
+              <Badge
+                variant="outline"
+                className="hidden lg:flex items-center gap-1 text-xs bg-blue-500/20 border-blue-500/30 text-blue-300 max-w-32 truncate"
+              >
+                <FileText className="h-3 w-3" />
+                <span className="truncate">
+                  {currentResume.personalInfo.fullName}
+                </span>
+              </Badge>
+            )}
+
+            <div className="hidden xl:block">
+              <LanguageSwitcher />
+            </div>
+
+            <div className="hidden xl:flex items-center gap-2">
+              <Button
                 variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                >
-                <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 dark:text-gray-300 dark:hover:text-gray-100" />
-                </Button>
-              </li>
-            </ul>
+                size="sm"
+                className="text-xs text-slate-300 hover:text-white hover:bg-slate-700/50"
+              >
+                <LogIn className="h-4 w-4 mr-1" />
+                登录
+              </Button>
+              <Button
+                size="sm"
+                className="text-xs bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0"
+              >
+                <UserPlus className="h-4 w-4 mr-1" />
+                注册
+              </Button>
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="xl:hidden text-slate-300 hover:text-white hover:bg-slate-700/50 p-2"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Menu className="h-4 w-4" />
+              )}
+            </Button>
           </div>
         </div>
-      </nav>
+      </motion.nav>
+
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className="fixed top-20 translate-x-1/2 w-[92%] max-w-sm bg-slate-900/95 border border-slate-700/50 rounded-2xl p-4 z-50 md:hidden shadow-2xl"
+            >
+              <div className="space-y-3">
+                {navItems.map((item, idx) => (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 p-3 rounded-xl text-sm transition-colors ${
+                        isActive(item.href)
+                          ? "bg-blue-500/20 text-blue-400 border border-blue-500/30"
+                          : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                      }`}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+
+                <div className="pt-3 border-t border-slate-700/50 space-y-3">
+                  <LanguageSwitcher />
+
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-700/50 h-12"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <LogIn className="h-4 w-4 mr-3" />
+                    登录
+                  </Button>
+                  <Button
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 h-12"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <UserPlus className="h-4 w-4 mr-3" />
+                    注册
+                  </Button>
+
+                  {currentResume?.personalInfo?.fullName && (
+                    <Badge
+                      variant="outline"
+                      className="flex items-center gap-2 text-xs justify-center bg-blue-500/20 border-blue-500/30 text-blue-300 p-3"
+                    >
+                      <FileText className="h-4 w-4" />
+                      <span className="truncate">
+                        {currentResume.personalInfo.fullName}
+                      </span>
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

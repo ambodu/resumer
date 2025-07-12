@@ -1,8 +1,123 @@
 {
-    "nav": {
+    "navbar": {
       "home": "首页",
       "templates": "模板",
-      "editor": "编辑器"
+      "editor": "编辑器",
+      "user": "我的简历",
+      "login": "登录",
+      "register": "注册"
+    },
+    "templates": {
+      "title": "精美简历模板",
+      "subtitle": "从我们精心设计的专业模板中选择，快速创建令人印象深刻的简历",
+      "searchPlaceholder": "搜索模板...",
+      "categories": {
+        "all": "全部",
+        "modern": "现代",
+        "classic": "经典",
+        "creative": "创意",
+        "minimal": "简约",
+        "professional": "专业"
+      },
+      "noResults": {
+        "title": "未找到匹配的模板",
+        "description": "尝试调整搜索条件或选择其他分类"
+      },
+      "features": {
+        "title": "为什么选择我们的模板？",
+        "professional": {
+          "title": "专业设计",
+          "description": "由资深设计师精心制作，符合现代招聘标准的视觉设计"
+        },
+        "smart": {
+          "title": "智能优化",
+          "description": "基于大数据分析的布局优化，提高简历通过率和关注度"
+        },
+        "industry": {
+          "title": "行业定制",
+          "description": "针对不同行业特点量身定制，突出专业技能和经验优势"
+        }
+      }
+    },
+    "user": {
+      "title": "我的简历",
+      "subtitle": "管理您的所有简历，随时编辑和下载",
+      "currentResume": {
+        "title": "当前编辑的简历",
+        "editing": "正在编辑",
+        "unnamed": "未命名简历"
+      },
+      "actions": {
+        "continueEdit": "继续编辑",
+        "save": "保存",
+        "edit": "编辑",
+        "download": "下载"
+      },
+      "stats": {
+        "name": "姓名",
+        "experience": "工作经验",
+        "education": "教育背景",
+        "skills": "技能",
+        "items": "项",
+        "notFilled": "未填写"
+      },
+      "lastSaved": "最后保存",
+      "quickActions": {
+        "create": {
+          "title": "创建新简历",
+          "description": "从空白模板开始创建",
+          "action": "开始创建"
+        },
+        "template": {
+          "title": "选择模板",
+          "description": "从专业模板开始",
+          "action": "浏览模板"
+        },
+        "import": {
+          "title": "导入简历",
+          "description": "从文件导入现有简历",
+          "action": "即将推出"
+        }
+      },
+      "savedResumes": {
+        "title": "已保存的简历",
+        "count": "份简历"
+      },
+      "filters": {
+        "hasExperience": "有工作经验",
+        "hasEducation": "有教育背景",
+        "hasSkills": "有技能",
+        "recentlyModified": "最近修改"
+      },
+      "search": {
+        "placeholder": "搜索简历名称或邮箱...",
+        "clearFilters": "清除筛选"
+      },
+      "empty": {
+        "noResumes": {
+          "title": "还没有保存的简历",
+          "description": "开始创建您的第一份简历吧！",
+          "action": "创建简历"
+        },
+        "noResults": {
+          "title": "没有找到匹配的简历",
+          "description": "尝试调整搜索条件或清除筛选器",
+          "action": "清除筛选"
+        }
+      },
+      "resumeCard": {
+        "defaultName": "简历",
+        "noEmail": "未填写邮箱",
+        "experience": "经验",
+        "education": "教育",
+        "skills": "技能"
+      },
+      "confirmDelete": {
+        "title": "删除简历",
+        "description": "确定要删除简历吗？此操作无法撤销。",
+        "confirm": "删除",
+        "cancel": "取消"
+      }
     },
     "home": {
       "title": "创建您的专业简历",

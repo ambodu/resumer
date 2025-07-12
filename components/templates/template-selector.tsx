@@ -25,9 +25,17 @@ export function TemplateSelector({ onSelectTemplate }: TemplateSelectorProps) {
           <SelectValue placeholder="Choose template" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="empty" className="dark:text-zinc-100">Empty Template</SelectItem>
-          <SelectItem value="software" className="dark:text-zinc-100">Software Engineer</SelectItem>
-          <SelectItem value="marketing" className="dark:text-zinc-100">Marketing Professional</SelectItem>
+          <SelectItem value="empty">空白模板</SelectItem>
+          <SelectItem value="modern">现代设计师</SelectItem>
+          <SelectItem value="software">软件工程师</SelectItem>
+          <SelectItem value="marketing">市场营销</SelectItem>
+          <SelectItem value="analyst">数据分析师</SelectItem>
+          <SelectItem value="manager">项目经理</SelectItem>
+          <SelectItem value="teacher">教师</SelectItem>
+          <SelectItem value="doctor">医生</SelectItem>
+          <SelectItem value="designer">平面设计师</SelectItem>
+          <SelectItem value="sales">销售经理</SelectItem>
+          <SelectItem value="finance">财务会计</SelectItem>
         </SelectContent>
       </Select>
     </div>
