@@ -77,9 +77,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      dom2canvas:
-        specifier: ^1.0.4
-        version: 1.0.4
       framer-motion:
         specifier: ^12.23.3
         version: 12.23.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -98,9 +95,6 @@ importers:
       next-intl:
         specifier: ^3.25.2
         version: 3.25.2(next@14.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.89.2))(react@18.3.1)
-      next-themes:
-        specifier: ^0.2.1
-        version: 0.2.1(next@14.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.89.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -1284,9 +1278,6 @@ packages:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
     engines: {node: '>=6.0.0'}
 
-  dom2canvas@1.0.4:
-    resolution: {integrity: sha512-aI/ArC12mhS8t4Qx9cvcTBxlWsyKA1uWXew79Tgg3RNiNhqqF6aqBoPX8/slpYvoMVsL41h8180Iku2zh55aCA==}
-
   dompurify@2.5.7:
     resolution: {integrity: sha512-2q4bEI+coQM8f5ez7kt2xclg1XsecaV9ASJk/54vwlfRRNQfDqJz2pzQ8t0Ix/ToBpXlVjrRIx7pFC/o8itG2Q==}
 
@@ -1915,13 +1906,6 @@ packages:
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
-
-  next-themes@0.2.1:
-    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
-    peerDependencies:
-      next: '*'
-      react: '*'
-      react-dom: '*'
 
   next@14.1.0:
     resolution: {integrity: sha512-wlzrsbfeSU48YQBjZhDzOwhWhGsy+uQycR8bHAOt1LY1bn3zZEcDyHQOEoN3aWzQ8LHCAJ1nqrWCc9XF2+O45Q==}
@@ -3697,8 +3681,6 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  dom2canvas@1.0.4: {}
-
   dompurify@2.5.7:
     optional: true
 
@@ -4480,12 +4462,6 @@ snapshots:
       next: 14.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.89.2)
       react: 18.3.1
       use-intl: 3.25.2(react@18.3.1)
-
-  next-themes@0.2.1(next@14.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.89.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      next: 14.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.89.2)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   next@14.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.89.2):
     dependencies:
