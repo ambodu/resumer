@@ -17,7 +17,13 @@
         "classic": "Classic",
         "creative": "Creative",
         "minimal": "Minimal",
-        "professional": "Professional"
+        "professional": "Professional",
+        "基础": "Basic",
+        "技术": "Technical",
+        "设计": "Design",
+        "数据": "Data",
+        "管理": "Management",
+        "营销": "Marketing"
       },
       "noResults": {
         "title": "No matching templates found",
