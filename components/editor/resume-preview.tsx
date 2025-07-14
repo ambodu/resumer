@@ -288,9 +288,9 @@ export function ResumePreview() {
             ref={render_el}
             className="max-w-[800px] mx-auto bg-white p-8 shadow-lg print:shadow-none min-h-[1123px]"
             style={{
-              fontFamily: resumeData.styles?.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-              fontSize: resumeData.styles?.fontSize || "14px",
-              color: resumeData.styles?.primaryColor || "#1f2937",
+              fontFamily: resumeData.style?.[0]?.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+              fontSize: resumeData.style?.[0]?.fontSize || "14px",
+              color: resumeData.style?.[0]?.color || "#1f2937",
               lineHeight: "1.6",
             }}
           >

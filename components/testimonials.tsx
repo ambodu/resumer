@@ -89,7 +89,7 @@ const Testimonials = () => {
                 <Quote className="text-slate-600 mb-4" size={24} />
 
                 <p className="text-slate-300 mb-6 leading-relaxed">
-                  "{testimonial.text}"
+                  &ldquo;{testimonial.text}&rdquo;
                 </p>
 
                 <div className="flex items-center space-x-3">

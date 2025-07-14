@@ -546,7 +546,7 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
     if (currentLocale !== locale) {
       setLocaleState(currentLocale);
     }
-  }, [pathname, locale]);
+  }, [pathname, locale, getLocaleFromPath]);
   
   // 设置语言并更新路径
   const setLocale = (newLocale: Locale) => {
@@ -679,4 +679,4 @@ export function LanguageSwitcher() {
 }
 
 // 导出类型
-export type { I18nContextType, TranslationKey };
+export type { I18nContextType };

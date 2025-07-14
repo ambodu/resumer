@@ -300,9 +300,9 @@ export function AIGenerator({ onGenerated, initialPersonalInfo }: AIGeneratorPro
   useEffect(() => {
     if (config.industry && config.position) {
       const skills = aiGenerator.getRecommendedSkills(config.industry, config.position);
-      setRecommendedSkills(skills.filter(skill => !config.skills.includes(skill)));
+      setRecommendedSkills(skills.filter((skill: string) => !config.skills.includes(skill)));
     }
-  }, [config.industry, config.position, config.skills]);
+  }, [config.industry, config.position, config.skills, aiGenerator]);
   
   return (
     <div className="space-y-6">

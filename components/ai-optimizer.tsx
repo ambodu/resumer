@@ -88,7 +88,8 @@ export function AIOptimizer({
   targetIndustry,
   onApplySuggestion,
 }: AIOptimizerProps) {
-  const currentResume = useAppSelector((state) => state.resume) || resume;
+  const currentResume =
+    useAppSelector((state) => state.resume.currentResume) || resume;
   const [analysis, setAnalysis] = useState<OptimizationAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedSuggestion, setSelectedSuggestion] =
@@ -99,7 +100,7 @@ export function AIOptimizer({
   const { toast } = useToast();
 
   // 执行分析
-  const runAnalysis = async () => {
+  const runAnalysis = React.useCallback(async () => {
     if (!currentResume) {
       toast({
         title: "无法分析",
@@ -157,7 +158,7 @@ export function AIOptimizer({
     } finally {
       setIsAnalyzing(false);
     }
-  };
+  }, [currentResume, targetIndustry]);
 
   // 应用建议
   const applySuggestion = (suggestion: OptimizationSuggestion) => {
@@ -166,7 +167,9 @@ export function AIOptimizer({
         throw new Error("建议数据无效");
       }
 
-      setAppliedSuggestions((prev) => new Set([...prev, suggestion.id]));
+      setAppliedSuggestions(
+        (prev) => new Set([...Array.from(prev), suggestion.id])
+      );
       onApplySuggestion?.(suggestion);
 
       toast({
@@ -247,7 +250,7 @@ export function AIOptimizer({
     if (currentResume) {
       runAnalysis();
     }
-  }, [currentResume, targetIndustry]);
+  }, [currentResume, targetIndustry, runAnalysis]);
 
   if (!currentResume) {
     return (

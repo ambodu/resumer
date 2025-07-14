@@ -4,7 +4,7 @@ import "../globals.css";
 
 import { Navbar } from "@/components/navbar";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import StoreProvider from "../StoreProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
@@ -29,6 +29,9 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  // Enable static rendering
+  setRequestLocale(locale);
+  
   const messages = await getMessages();
 
   return (

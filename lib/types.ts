@@ -1,5 +1,6 @@
 export interface PersonalInfo {
   name: string;
+  fullName?: string;
   email: string;
   phone: string;
   location: string;
@@ -28,6 +29,7 @@ export interface Styles {
 }
 
 export interface ResumeData {
+  id?: string;
   personalInfo: PersonalInfo;
   experience: Experience[];
   education: Education[];

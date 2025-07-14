@@ -1,19 +1,37 @@
 "use client";
 
-import { lazy, Suspense } from 'react';
-import { Loading } from '@/components/ui/loading';
+import { lazy, Suspense } from "react";
+import { Loading } from "@/components/ui/loading";
 
 // 懒加载组件
-const LazyResumeEditor = lazy(() => import('@/components/editor/resume-editor').then(module => ({ default: module.ResumeEditor })));
-const LazyResumePreview = lazy(() => import('@/components/editor/resume-preview').then(module => ({ default: module.ResumePreview })));
-const LazyResumeForm = lazy(() => import('@/components/editor/resume-form').then(module => ({ default: module.ResumeForm })));
-const LazyResumeManager = lazy(() => import('@/components/resume-manager').then(module => ({ default: module.ResumeManager })));
-const LazyTemplateSelector = lazy(() => import('@/components/templates/template-selector').then(module => ({ default: module.TemplateSelector })));
-const LazyTestimonials = lazy(() => import('@/components/testimonials').then(module => ({ default: module.Testimonials })));
+const LazyResumeEditor = lazy(() =>
+  import("@/components/editor/resume-editor").then((module) => ({
+    default: module.ResumeEditor,
+  }))
+);
+const LazyResumePreview = lazy(() =>
+  import("@/components/editor/resume-preview").then((module) => ({
+    default: module.ResumePreview,
+  }))
+);
+const LazyResumeForm = lazy(() =>
+  import("@/components/editor/resume-form").then((module) => ({
+    default: module.ResumeForm,
+  }))
+);
+
+const LazyTemplateSelector = lazy(() =>
+  import("@/components/templates/template-selector").then((module) => ({
+    default: module.TemplateSelector,
+  }))
+);
+const LazyTestimonials = lazy(() => import("@/components/testimonials"));
 
 // 加载状态组件
 const LoadingFallback = ({ className = "" }: { className?: string }) => (
-  <div className={`flex items-center justify-center min-h-[200px] ${className}`}>
+  <div
+    className={`flex items-center justify-center min-h-[200px] ${className}`}
+  >
     <Loading size="lg" text="加载中..." />
   </div>
 );
@@ -66,12 +84,6 @@ export const ResumeForm = (props: any) => (
   </Suspense>
 );
 
-export const ResumeManager = (props: any) => (
-  <Suspense fallback={<LoadingFallback />}>
-    <LazyResumeManager {...props} />
-  </Suspense>
-);
-
 export const TemplateSelector = (props: any) => (
   <Suspense fallback={<TemplateLoadingFallback />}>
     <LazyTemplateSelector {...props} />
@@ -100,18 +112,17 @@ export function withLazyLoading<T extends object>(
 
 // 预加载函数
 export const preloadComponents = {
-  editor: () => import('@/components/editor/resume-editor'),
-  preview: () => import('@/components/editor/resume-preview'),
-  form: () => import('@/components/editor/resume-form'),
-  manager: () => import('@/components/resume-manager'),
-  templates: () => import('@/components/templates/template-selector'),
-  testimonials: () => import('@/components/testimonials'),
+  editor: () => import("@/components/editor/resume-editor"),
+  preview: () => import("@/components/editor/resume-preview"),
+  form: () => import("@/components/editor/resume-form"),
+  templates: () => import("@/components/templates/template-selector"),
+  testimonials: () => import("@/components/testimonials"),
 };
 
 // 预加载钩子
 export const usePreloadComponents = () => {
   const preload = (components: (keyof typeof preloadComponents)[]) => {
-    components.forEach(component => {
+    components.forEach((component) => {
       preloadComponents[component]();
     });
   };

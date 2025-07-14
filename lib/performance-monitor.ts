@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from 'react';
+
 // 性能指标接口
 interface PerformanceMetrics {
   // Core Web Vitals
@@ -446,7 +448,7 @@ export function measurePerformance(name: string) {
         monitor.recordEvent({
           type: 'error',
           name: `${target.constructor.name}.${propertyKey}_error`,
-          metadata: { error: error.message }
+          metadata: { error: (error as Error).message }
         });
         throw error;
       }
@@ -551,10 +553,10 @@ export function createLazyComponent<T extends React.ComponentType<any>>(
   );
   
   return function WrappedLazyComponent(props: React.ComponentProps<T>) {
-    return (
-      <React.Suspense fallback={fallback ? React.createElement(fallback) : <div>Loading...</div>}>
-        <LazyComponent {...props} />
-      </React.Suspense>
+    return React.createElement(
+      React.Suspense,
+      { fallback: fallback ? React.createElement(fallback) : React.createElement('div', {}, 'Loading...') },
+      React.createElement(LazyComponent, props)
     );
   };
 }

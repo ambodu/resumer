@@ -6,7 +6,23 @@ import { ResumePreview } from "./resume-preview";
 import { useResumeState, useResumeActions } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Save, RotateCcw, RotateCw, AlertCircle, FileText, Download, Upload, Eye, Edit, CheckCircle, Sparkles, Zap, Brain, Wand2, Target } from "lucide-react";
+import {
+  Save,
+  RotateCcw,
+  RotateCw,
+  AlertCircle,
+  FileText,
+  Download,
+  Upload,
+  Eye,
+  Edit,
+  CheckCircle,
+  Sparkles,
+  Zap,
+  Brain,
+  Wand2,
+  Target,
+} from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loading } from "@/components/ui/loading";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -18,8 +34,10 @@ import { ResumeScorer } from "@/components/resume-scorer";
 
 export function ResumeEditor() {
   const { currentResume, isLoading, error, lastSaved } = useResumeState();
-  const { saveResume, clearError, updateResume } = useResumeActions();
-  const [activeTab, setActiveTab] = useState<"edit" | "preview" | "optimize" | "generate" | "score">("edit");
+  const { saveResume, clearError, setCurrentResume } = useResumeActions();
+  const [activeTab, setActiveTab] = useState<
+    "edit" | "preview" | "optimize" | "generate" | "score"
+  >("edit");
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -27,91 +45,92 @@ export function ResumeEditor() {
   const { toast } = useToast();
 
   // 简历上传和解析功能
-  const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleFileUpload = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
 
-    if (!file.type.includes('pdf') && !file.type.includes('doc')) {
-      toast({
-        title: "文件格式不支持",
-        description: "请上传 PDF 或 Word 文档",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsUploading(true);
-    try {
-      // 模拟简历解析过程
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // 生成示例解析数据
-      const parsedResume: ResumeData = {
-        personalInfo: {
-          fullName: "张三",
-          email: "zhangsan@example.com",
-          phone: "138-0000-0000",
-          location: "北京市",
-          summary: "具有5年工作经验的软件工程师，专注于前端开发和用户体验设计。"
-        },
-        experiences: [
-          {
-            id: "1",
-            company: "科技有限公司",
-            position: "高级前端工程师",
-            startDate: "2020-01",
-            endDate: "2024-01",
-            description: "负责公司主要产品的前端开发，使用React和TypeScript构建用户界面。"
-          }
-        ],
-        education: [
-          {
-            id: "1",
-            school: "北京大学",
-            degree: "计算机科学学士",
-            startDate: "2016-09",
-            endDate: "2020-06",
-            description: "主修计算机科学与技术，GPA 3.8/4.0"
-          }
-        ],
-        skills: [
-          { id: "1", name: "JavaScript", level: "高级" },
-          { id: "2", name: "React", level: "高级" },
-          { id: "3", name: "TypeScript", level: "中级" }
-        ]
-      };
-
-      // 保存到localStorage
-      const savedResumes = JSON.parse(localStorage.getItem('uploadedResumes') || '[]');
-      const newResume = {
-        id: Date.now().toString(),
-        name: file.name.replace(/\.[^/.]+$/, ""),
-        data: parsedResume,
-        uploadedAt: new Date().toISOString()
-      };
-      savedResumes.push(newResume);
-      localStorage.setItem('uploadedResumes', JSON.stringify(savedResumes));
-
-      // 更新当前简历
-      updateResume(parsedResume);
-      
-      toast({
-        title: "简历上传成功",
-        description: `已成功解析并导入简历：${file.name}`
-      });
-    } catch (error) {
-      toast({
-        title: "上传失败",
-        description: "简历解析过程中出现错误，请重试",
-        variant: "destructive"
-      });
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+      if (!file.type.includes("pdf") && !file.type.includes("doc")) {
+        toast({
+          title: "文件格式不支持",
+          description: "请上传 PDF 或 Word 文档",
+          variant: "destructive",
+        });
+        return;
       }
-    }
-  }, [updateResume, toast]);
+
+      setIsUploading(true);
+      try {
+        // 模拟简历解析过程
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        // 生成示例解析数据
+        const parsedResume: ResumeData = {
+          personalInfo: {
+            name: "张三",
+            fullName: "张三",
+            email: "zhangsan@example.com",
+            phone: "138-0000-0000",
+            location: "北京市",
+            summary:
+              "具有5年工作经验的软件工程师，专注于前端开发和用户体验设计。",
+          },
+          experience: [
+            {
+              company: "科技有限公司",
+              position: "高级前端工程师",
+              startDate: "2020-01",
+              endDate: "2024-01",
+              description:
+                "负责公司主要产品的前端开发，使用React和TypeScript构建用户界面。",
+            },
+          ],
+          education: [
+            {
+              school: "北京大学",
+              degree: "计算机科学学士",
+              field: "计算机科学与技术",
+              graduationDate: "2020-06",
+            },
+          ],
+          skills: ["JavaScript", "React", "TypeScript"],
+        };
+
+        // 保存到localStorage
+        const savedResumes = JSON.parse(
+          localStorage.getItem("uploadedResumes") || "[]"
+        );
+        const newResume = {
+          id: Date.now().toString(),
+          name: file.name.replace(/\.[^/.]+$/, ""),
+          data: parsedResume,
+          uploadedAt: new Date().toISOString(),
+        };
+        savedResumes.push(newResume);
+        localStorage.setItem("uploadedResumes", JSON.stringify(savedResumes));
+
+        // 更新当前简历
+        setCurrentResume(parsedResume);
+
+        toast({
+          title: "简历上传成功",
+          description: `已成功解析并导入简历：${file.name}`,
+        });
+      } catch (error) {
+        toast({
+          title: "上传失败",
+          description: "简历解析过程中出现错误，请重试",
+          variant: "destructive",
+        });
+      } finally {
+        setIsUploading(false);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      }
+    },
+    [setCurrentResume, toast]
+  );
 
   // Auto-save functionality
   const handleAutoSave = useCallback(async () => {
@@ -124,7 +143,7 @@ export function ResumeEditor() {
           description: "您的简历已自动保存",
         });
       } catch (error) {
-        console.error('Auto-save failed:', error);
+        console.error("Auto-save failed:", error);
       }
     }
   }, [autoSaveEnabled, hasUnsavedChanges, currentResume, saveResume, toast]);
@@ -149,7 +168,10 @@ export function ResumeEditor() {
   if (isLoading && !currentResume) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <Loading text="正在加载简历编辑器..." className="justify-center py-20" />
+        <Loading
+          text="正在加载简历编辑器..."
+          className="justify-center py-20"
+        />
       </div>
     );
   }
@@ -164,7 +186,7 @@ export function ResumeEditor() {
           description="选择一个模板或从空白开始，创建您的专业简历"
           action={{
             label: "选择模板",
-            onClick: () => window.location.href = "/templates"
+            onClick: () => (window.location.href = "/templates"),
           }}
         />
       </div>
@@ -183,11 +205,14 @@ export function ResumeEditor() {
           display: none;
         }
       `}</style>
-      
+
       <div className="container mx-auto px-4 py-6">
         {/* Error Banner */}
         {error && (
-          <Alert variant="destructive" className="mb-6 border-red-200 bg-red-50">
+          <Alert
+            variant="destructive"
+            className="mb-6 border-red-200 bg-red-50"
+          >
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
           </Alert>
@@ -231,7 +256,7 @@ export function ResumeEditor() {
                 </span>
               )}
             </div>
-            
+
             {/* Action Buttons */}
             <div className="flex items-center gap-3 flex-wrap">
               {/* Upload Button */}
@@ -256,7 +281,7 @@ export function ResumeEditor() {
                 )}
                 {isUploading ? "解析中..." : "上传简历"}
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -266,7 +291,7 @@ export function ResumeEditor() {
                 <Zap className="mr-2 h-4 w-4" />
                 {autoSaveEnabled ? "关闭自动保存" : "开启自动保存"}
               </Button>
-              
+
               <Button
                 onClick={() => {
                   saveResume();
@@ -283,7 +308,7 @@ export function ResumeEditor() {
                 )}
                 {isLoading ? "保存中..." : "保存简历"}
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -458,7 +483,7 @@ export function ResumeEditor() {
           {activeTab === "optimize" && (
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl h-full overflow-hidden">
               <div className="h-full overflow-y-auto hide-scrollbar p-6">
-                <AIOptimizer 
+                <AIOptimizer
                   resume={currentResume}
                   onApplySuggestion={(suggestion) => {
                     toast({
@@ -475,16 +500,16 @@ export function ResumeEditor() {
           {activeTab === "generate" && (
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl h-full overflow-hidden">
               <div className="h-full overflow-y-auto hide-scrollbar p-6">
-                <AIGenerator 
-                   onGenerated={(generatedContent) => {
-                     updateResume(generatedContent);
-                     toast({
-                       title: "内容已生成",
-                       description: "AI已为您生成新的简历内容",
-                     });
-                     setHasUnsavedChanges(true);
-                   }}
-                 />
+                <AIGenerator
+                  onGenerated={(generatedContent) => {
+                    setCurrentResume(generatedContent);
+                    toast({
+                      title: "内容已生成",
+                      description: "AI已为您生成新的简历内容",
+                    });
+                    setHasUnsavedChanges(true);
+                  }}
+                />
               </div>
             </div>
           )}
@@ -492,15 +517,15 @@ export function ResumeEditor() {
           {activeTab === "score" && (
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl h-full overflow-hidden">
               <div className="h-full overflow-y-auto hide-scrollbar p-6">
-                <ResumeScorer 
-                   resume={currentResume}
-                   onScoreUpdate={(scoreReport) => {
-                     toast({
-                       title: "评分完成",
-                       description: `简历评分：${scoreReport.totalScore}/100 (${scoreReport.grade})`,
-                     });
-                   }}
-                 />
+                <ResumeScorer
+                  resume={currentResume}
+                  onScoreUpdate={(scoreReport) => {
+                    toast({
+                      title: "评分完成",
+                      description: `简历评分：${scoreReport.totalScore}/100 (${scoreReport.grade})`,
+                    });
+                  }}
+                />
               </div>
             </div>
           )}
