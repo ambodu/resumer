@@ -1,3 +1,5 @@
+作者你好,首先很冒昧打扰你,我现在急需联系到你个人,人命关天,人命关天,人命关天,非常紧急非常紧急非常紧急,看到后请联系allencharm@163.com
+
 # Resumer
 
 Make Resume Creating Easily!
