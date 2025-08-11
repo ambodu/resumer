@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -17,16 +16,16 @@ import {
 
 import { useState, useEffect } from "react";
 import { usePathname, useParams } from "next/navigation";
-import { useResumeState } from "@/lib/hooks";
-import { LanguageSwitcher } from "@/components/i18n/language-switcher";
-import { useTranslation } from "@/components/i18n/i18n-provider";
+import { useAppState } from "@/lib/app-hooks";
+import { LanguageSwitcher } from "@/components/language-switcher";
+// 临时使用静态文本，后续可以添加翻译功能
 
 const Logo = () => (
   <div className="flex items-center gap-2">
-    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-      <Sparkles className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary rounded-lg flex items-center justify-center">
+      <Sparkles className="h-4 w-4 sm:h-6 sm:w-6 text-primary-foreground" />
     </div>
-    <span className="text-white font-semibold text-base sm:text-lg hidden xs:block">
+    <span className="text-foreground font-semibold text-base sm:text-lg hidden xs:block">
       Resume
     </span>
   </div>
@@ -38,8 +37,7 @@ export function Navbar() {
   const pathname = usePathname();
   const params = useParams();
   const locale = params.locale as string;
-  const { currentResume } = useResumeState();
-  const { t } = useTranslation();
+  const { currentResume } = useAppState();
 
   useEffect(() => {
     setMounted(true);
@@ -50,22 +48,22 @@ export function Navbar() {
   const navItems = [
     {
       href: `/${locale}`,
-      label: t("nav.home"),
+      label: locale === "zh" ? "首页" : "Home",
       icon: <Home className="h-4 w-4" />,
     },
     {
       href: `/${locale}/templates`,
-      label: t("nav.templates"),
+      label: locale === "zh" ? "模板" : "Templates",
       icon: <FileText className="h-4 w-4" />,
     },
     {
       href: `/${locale}/editor`,
-      label: t("nav.editor"),
+      label: locale === "zh" ? "编辑器" : "Editor",
       icon: <FileText className="h-4 w-4" />,
     },
     {
       href: `/${locale}/user`,
-      label: t("nav.account"),
+      label: locale === "zh" ? "我的" : "Account",
       icon: <User className="h-4 w-4" />,
     },
   ];
@@ -80,11 +78,7 @@ export function Navbar() {
   return (
     <>
       {/* Navbar Container */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-4 inset-x-0 z-50 bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl mx-auto shadow-2xl w-full max-w-screen-xl px-4 sm:px-6 py-2 sm:py-3"
-      >
+      <nav className="fixed top-4 inset-x-0 z-50 bg-background/95 backdrop-blur-sm border border-border rounded-2xl mx-auto shadow-lg w-full max-w-screen-xl px-4 sm:px-6 py-2 sm:py-3">
         <div className="flex items-center justify-between">
           {/* Left: Logo */}
           <Link href={`/${locale}`} className="shrink-0">
@@ -100,8 +94,8 @@ export function Navbar() {
                   href={item.href}
                   className={`text-xs lg:text-sm flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
                     isActive(item.href)
-                      ? "text-blue-400 bg-blue-500/10"
-                      : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`}
                 >
                   {item.icon}
@@ -116,7 +110,7 @@ export function Navbar() {
             {currentResume?.personalInfo?.fullName && (
               <Badge
                 variant="outline"
-                className="hidden lg:flex items-center gap-1 text-xs bg-blue-500/20 border-blue-500/30 text-blue-300 max-w-32 truncate"
+                className="hidden lg:flex items-center gap-1 text-xs bg-primary/10 border-primary/30 text-primary max-w-32 truncate"
               >
                 <FileText className="h-3 w-3" />
                 <span className="truncate">
@@ -126,22 +120,19 @@ export function Navbar() {
             )}
 
             <div className="hidden xl:block">
-              <LanguageSwitcher />
+              <LanguageSwitcher currentLocale={locale} />
             </div>
 
             <div className="hidden xl:flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-xs text-slate-300 hover:text-white hover:bg-slate-700/50"
+                className="text-xs text-muted-foreground hover:text-foreground hover:bg-muted"
               >
                 <LogIn className="h-4 w-4 mr-1" />
                 登录
               </Button>
-              <Button
-                size="sm"
-                className="text-xs bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0"
-              >
+              <Button size="sm" className="text-xs btn-primary">
                 <UserPlus className="h-4 w-4 mr-1" />
                 注册
               </Button>
@@ -152,7 +143,7 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden text-slate-300 hover:text-white hover:bg-slate-700/50 p-2"
+              className="xl:hidden text-muted-foreground hover:text-foreground hover:bg-muted p-2"
             >
               {mobileMenuOpen ? (
                 <X className="h-4 w-4" />
@@ -162,85 +153,69 @@ export function Navbar() {
             </Button>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Mobile Navigation */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ type: "spring", damping: 20, stiffness: 300 }}
-              className="fixed top-20 translate-x-1/2 w-[92%] max-w-sm bg-slate-900/95 border border-slate-700/50 rounded-2xl p-4 z-50 md:hidden shadow-2xl"
-            >
-              <div className="space-y-3">
-                {navItems.map((item, idx) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 p-3 rounded-xl text-sm transition-colors ${
-                        isActive(item.href)
-                          ? "bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                          : "text-slate-300 hover:text-white hover:bg-slate-700/50"
-                      }`}
-                    >
-                      {item.icon}
-                      <span>{item.label}</span>
-                    </Link>
-                  </motion.div>
-                ))}
-
-                <div className="pt-3 border-t border-slate-700/50 space-y-3">
-                  <LanguageSwitcher />
-
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-700/50 h-12"
+      {mobileMenuOpen && (
+        <>
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+          />
+          <div className="fixed top-20 translate-x-1/2 w-[92%] max-w-sm bg-background/95 border border-border rounded-2xl p-4 z-50 md:hidden shadow-lg">
+            <div className="space-y-3">
+              {navItems.map((item) => (
+                <div key={item.href}>
+                  <Link
+                    href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 p-3 rounded-xl text-sm transition-colors ${
+                      isActive(item.href)
+                        ? "bg-primary/10 text-primary border border-primary/30"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    }`}
                   >
-                    <LogIn className="h-4 w-4 mr-3" />
-                    登录
-                  </Button>
-                  <Button
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 h-12"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <UserPlus className="h-4 w-4 mr-3" />
-                    注册
-                  </Button>
-
-                  {currentResume?.personalInfo?.fullName && (
-                    <Badge
-                      variant="outline"
-                      className="flex items-center gap-2 text-xs justify-center bg-blue-500/20 border-blue-500/30 text-blue-300 p-3"
-                    >
-                      <FileText className="h-4 w-4" />
-                      <span className="truncate">
-                        {currentResume.personalInfo.fullName}
-                      </span>
-                    </Badge>
-                  )}
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </Link>
                 </div>
+              ))}
+
+              <div className="pt-3 border-t border-border space-y-3">
+                <LanguageSwitcher currentLocale={locale} />
+
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted h-12"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <LogIn className="h-4 w-4 mr-3" />
+                  登录
+                </Button>
+                <Button
+                  className="w-full btn-primary h-12"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <UserPlus className="h-4 w-4 mr-3" />
+                  注册
+                </Button>
+
+                {currentResume?.personalInfo?.fullName && (
+                  <Badge
+                    variant="outline"
+                    className="flex items-center gap-2 text-xs justify-center bg-primary/10 border-primary/30 text-primary p-3"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span className="truncate">
+                      {currentResume.personalInfo.fullName}
+                    </span>
+                  </Badge>
+                )}
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

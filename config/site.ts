@@ -1,69 +1,87 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + NextUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "Resume Builder",
+  description: "专业的在线简历制作工具，提供精美模板和智能优化功能",
+  url: "https://resume-builder.com",
+  ogImage: "https://resume-builder.com/og.jpg",
+  creator: "@resumebuilder",
+  keywords: [
+    "简历制作",
+    "简历编辑器",
+    "简历模板",
+    "CV制作",
+    "求职工具",
+    "在线简历",
+  ],
+  authors: [
+    {
+      name: "Resume Builder Team",
+      url: "https://resume-builder.com",
+    },
+  ],
   navItems: [
     {
-      label: "Home",
+      label: "首页",
       href: "/",
     },
     {
-      label: "Docs",
-      href: "/docs",
+      label: "模板",
+      href: "/templates",
     },
     {
-      label: "Pricing",
-      href: "/pricing",
+      label: "编辑器",
+      href: "/editor",
     },
     {
-      label: "Blog",
-      href: "/blog",
-    },
-    {
-      label: "About",
-      href: "/about",
+      label: "我的简历",
+      href: "/user",
     },
   ],
   navMenuItems: [
     {
-      label: "Profile",
-      href: "/profile",
+      label: "我的简历",
+      href: "/user",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "模板库",
+      href: "/templates",
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "编辑器",
+      href: "/editor",
     },
     {
-      label: "Team",
-      href: "/team",
+      label: "帮助中心",
+      href: "/help",
     },
     {
-      label: "Calendar",
-      href: "/calendar",
+      label: "反馈建议",
+      href: "/feedback",
     },
     {
-      label: "Settings",
+      label: "设置",
       href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
     },
   ],
   links: {
-    github: "https://github.com/nextui-org/nextui",
-    twitter: "https://twitter.com/getnextui",
-    docs: "https://nextui.org",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    github: "https://github.com/resume-builder/resume-builder",
+    twitter: "https://twitter.com/resumebuilder",
+    docs: "https://docs.resume-builder.com",
+    support: "mailto:support@resume-builder.com",
+    privacy: "/privacy",
+    terms: "/terms",
   },
+  features: [
+    "专业模板设计",
+    "智能内容优化",
+    "一键PDF导出",
+    "多语言支持",
+    "实时预览",
+    "云端同步",
+  ],
+  supportedLanguages: [
+    { code: "zh", name: "中文", flag: "🇨🇳" },
+    { code: "en", name: "English", flag: "🇺🇸" },
+  ],
 };

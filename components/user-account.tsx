@@ -44,7 +44,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { useAppSelector, useAppDispatch } from '@/lib/hooks';
+import { useResumeManager, useAppState } from '@/lib/app-hooks';
 import { ResumeData } from '@/lib/types';
 
 interface UserProfile {
@@ -159,10 +159,11 @@ const MOCK_RESUMES: SavedResume[] = [
 
 export function UserAccount({ onProfileUpdate, onResumeSelect }: UserAccountProps) {
   const { toast } = useToast();
+  const { savedResumes } = useAppState();
+  const { loadResume, deleteResume, duplicateResume } = useResumeManager();
   
   // 状态管理
   const [user, setUser] = useState<UserProfile>(MOCK_USER);
-  const [savedResumes, setSavedResumes] = useState<SavedResume[]>(MOCK_RESUMES);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<UserProfile>>(user);
   const [showPassword, setShowPassword] = useState(false);
@@ -198,11 +199,10 @@ export function UserAccount({ onProfileUpdate, onResumeSelect }: UserAccountProp
     }
   };
   
-  // 删除简历
-  const deleteResume = async (resumeId: string) => {
+  // 删除简历处理
+  const handleDeleteResume = async (resumeId: string) => {
     try {
-      setSavedResumes(prev => prev.filter(resume => resume.id !== resumeId));
-      
+      await deleteResume(resumeId);
       toast({
         title: "简历已删除",
         description: "简历已从您的账户中删除"
@@ -216,41 +216,35 @@ export function UserAccount({ onProfileUpdate, onResumeSelect }: UserAccountProp
     }
   };
   
-  // 切换简历公开状态
-  const toggleResumePublic = async (resumeId: string) => {
-    setSavedResumes(prev => prev.map(resume => 
-      resume.id === resumeId 
-        ? { ...resume, isPublic: !resume.isPublic }
-        : resume
-    ));
-    
-    toast({
-      title: "设置已更新",
-      description: "简历公开状态已更新"
-    });
-  };
-  
-  // 导出简历
-  const exportResume = async (resume: SavedResume) => {
+  // 加载简历
+  const handleLoadResume = async (resumeId: string) => {
     try {
-      // 模拟导出
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // 更新下载计数
-      setSavedResumes(prev => prev.map(r => 
-        r.id === resume.id 
-          ? { ...r, downloadCount: r.downloadCount + 1 }
-          : r
-      ));
-      
+      await loadResume(resumeId);
       toast({
-        title: "导出成功",
-        description: `"${resume.name}" 已导出为PDF`
+        title: "简历已加载",
+        description: "简历已加载到编辑器中"
       });
     } catch (error) {
       toast({
-        title: "导出失败",
-        description: "简历导出失败，请重试",
+        title: "加载失败",
+        description: "简历加载失败，请重试",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  // 复制简历
+  const handleDuplicateResume = async (resumeId: string) => {
+    try {
+      await duplicateResume(resumeId);
+      toast({
+        title: "简历已复制",
+        description: "简历副本已创建"
+      });
+    } catch (error) {
+      toast({
+        title: "复制失败",
+        description: "简历复制失败，请重试",
         variant: "destructive"
       });
     }

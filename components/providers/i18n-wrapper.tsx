@@ -1,8 +1,7 @@
 "use client";
 
-import React from 'react';
-import { I18nProvider } from '@/components/i18n/i18n-provider';
-import { Locale } from '@/lib/i18n';
+import React from "react";
+import { Locale } from "@/lib/i18n";
 
 interface I18nWrapperProps {
   children: React.ReactNode;
@@ -10,11 +9,7 @@ interface I18nWrapperProps {
 }
 
 export function I18nWrapper({ children, locale }: I18nWrapperProps) {
-  return (
-    <I18nProvider initialLocale={locale}>
-      {children}
-    </I18nProvider>
-  );
+  return <div data-locale={locale}>{children}</div>;
 }
 
 export default I18nWrapper;

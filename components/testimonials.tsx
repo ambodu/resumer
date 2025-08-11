@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
 const testimonials = [
@@ -47,90 +46,73 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-32 bg-slate-800 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-5xl md:text-6xl font-light text-white mb-6">
-            深受 <span className="text-blue-400 font-medium">用户喜爱</span>
+    <section className="section bg-muted/50">
+      <div className="container">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
+            深受 <span className="text-accent-foreground">用户喜爱</span>
           </h2>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             不要只听我们说，看看全国各地的用户怎么评价我们的产品。
           </p>
-        </motion.div>
-
-        {/* Scrolling Testimonials */}
-        <div className="relative">
-          <motion.div
-            animate={{ x: [0, -1920] }}
-            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="flex space-x-6"
-          >
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                className="flex-shrink-0 w-80 bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-6"
-              >
-                <div className="flex items-center space-x-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={16}
-                      className="text-blue-400 fill-current"
-                    />
-                  ))}
-                </div>
-
-                <Quote className="text-slate-600 mb-4" size={24} />
-
-                <p className="text-slate-300 mb-6 leading-relaxed">
-                  &ldquo;{testimonial.text}&rdquo;
-                </p>
-
-                <div className="flex items-center space-x-3">
-                  <div className="text-3xl">{testimonial.avatar}</div>
-                  <div>
-                    <div className="text-white font-semibold">
-                      {testimonial.name}
-                    </div>
-                    <div className="text-slate-400 text-sm">
-                      {testimonial.role} • {testimonial.country}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-16"
-        >
-          <div className="inline-flex items-center space-x-6 bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-full px-8 py-4">
+        {/* Testimonials Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className="bg-card border rounded-2xl p-6 card-hover"
+            >
+              <div className="flex items-center space-x-1 mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star
+                    key={i}
+                    size={16}
+                    className="text-primary fill-current"
+                  />
+                ))}
+              </div>
+
+              <Quote className="text-muted-foreground mb-4" size={24} />
+
+              <p className="text-foreground mb-6 leading-relaxed">
+                &ldquo;{testimonial.text}&rdquo;
+              </p>
+
+              <div className="flex items-center space-x-3">
+                <div className="text-3xl">{testimonial.avatar}</div>
+                <div>
+                  <div className="text-foreground font-semibold">
+                    {testimonial.name}
+                  </div>
+                  <div className="text-muted-foreground text-sm">
+                    {testimonial.role} • {testimonial.country}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <div className="inline-flex items-center space-x-6 bg-card border rounded-full px-8 py-4">
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
                     size={16}
-                    className="text-blue-400 fill-current"
+                    className="text-primary fill-current"
                   />
                 ))}
               </div>
-              <span className="text-white font-semibold">4.9/5</span>
+              <span className="text-foreground font-semibold">4.9/5</span>
             </div>
-            <div className="w-px h-6 bg-slate-600" />
-            <div className="text-slate-400">基于 50,000+ 用户评价</div>
+            <div className="w-px h-6 bg-border" />
+            <div className="text-muted-foreground">基于 50,000+ 用户评价</div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

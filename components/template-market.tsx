@@ -49,8 +49,7 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useAppDispatch } from "@/lib/hooks";
-import { setCurrentResume } from "@/lib/store";
+import { useAppState } from "@/lib/app-hooks";
 import { ResumeData } from "@/lib/types";
 
 interface Template {
@@ -98,7 +97,7 @@ const MOCK_TEMPLATES: Template[] = [
     rating: 4.8,
     downloads: 1250,
     likes: 89,
-    tags: ["简洁", "现代", "技术"],
+    tags: ["简约", "现代", "技术"],
     preview: "/templates/modern-simple-preview.jpg",
     thumbnail: "/templates/modern-simple-thumb.jpg",
     author: {
@@ -110,7 +109,6 @@ const MOCK_TEMPLATES: Template[] = [
     updatedAt: "2024-01-20",
     data: {
       personalInfo: {
-        name: "",
         fullName: "",
         email: "",
         phone: "",
@@ -121,7 +119,7 @@ const MOCK_TEMPLATES: Template[] = [
   },
   {
     id: "2",
-    name: "创意设计师",
+    name: "创意设计",
     description: "富有创意的设计，展现个人风格",
     category: "creative",
     industry: ["design", "marketing"],
@@ -144,75 +142,6 @@ const MOCK_TEMPLATES: Template[] = [
     updatedAt: "2024-01-18",
     data: {
       personalInfo: {
-        name: "",
-        fullName: "",
-        email: "",
-        phone: "",
-        location: "",
-        summary: "",
-      },
-    },
-  },
-  {
-    id: "3",
-    name: "商务专业",
-    description: "正式商务风格，适合管理岗位",
-    category: "professional",
-    industry: ["business", "finance"],
-    level: "executive",
-    style: "professional",
-    color: "#059669",
-    isPremium: false,
-    rating: 4.7,
-    downloads: 2100,
-    likes: 203,
-    tags: ["商务", "专业", "管理"],
-    preview: "/templates/business-professional-preview.jpg",
-    thumbnail: "/templates/business-professional-thumb.jpg",
-    author: {
-      name: "Business Templates",
-      avatar: "/avatars/business-templates.jpg",
-      verified: true,
-    },
-    createdAt: "2024-01-05",
-    updatedAt: "2024-01-15",
-    data: {
-      personalInfo: {
-        name: "",
-        fullName: "",
-        email: "",
-        phone: "",
-        location: "",
-        summary: "",
-      },
-    },
-  },
-  {
-    id: "4",
-    name: "极简主义",
-    description: "极简设计理念，突出内容本身",
-    category: "minimal",
-    industry: ["technology", "consulting"],
-    level: "entry",
-    style: "minimal",
-    color: "#6B7280",
-    isPremium: false,
-    rating: 4.6,
-    downloads: 1680,
-    likes: 124,
-    tags: ["极简", "清爽", "内容"],
-    preview: "/templates/minimal-preview.jpg",
-    thumbnail: "/templates/minimal-thumb.jpg",
-    author: {
-      name: "Minimal Design",
-      avatar: "/avatars/minimal-design.jpg",
-      verified: false,
-    },
-    createdAt: "2024-01-12",
-    updatedAt: "2024-01-22",
-    data: {
-      personalInfo: {
-        name: "",
         fullName: "",
         email: "",
         phone: "",
@@ -231,33 +160,8 @@ const CATEGORIES = [
   { value: "minimal", label: "极简", icon: Award },
 ];
 
-const INDUSTRIES = [
-  { value: "all", label: "全部行业" },
-  { value: "technology", label: "科技" },
-  { value: "design", label: "设计" },
-  { value: "business", label: "商务" },
-  { value: "marketing", label: "营销" },
-  { value: "finance", label: "金融" },
-  { value: "consulting", label: "咨询" },
-];
-
-const LEVELS = [
-  { value: "all", label: "全部级别" },
-  { value: "entry", label: "初级" },
-  { value: "mid", label: "中级" },
-  { value: "senior", label: "高级" },
-  { value: "executive", label: "专家" },
-];
-
-const SORT_OPTIONS = [
-  { value: "popular", label: "最受欢迎" },
-  { value: "newest", label: "最新发布" },
-  { value: "rating", label: "评分最高" },
-  { value: "downloads", label: "下载最多" },
-];
-
 export function TemplateMarket({ onTemplateSelect }: TemplateMarketProps) {
-  const dispatch = useAppDispatch();
+  const { actions } = useAppState();
   const { toast } = useToast();
 
   // 状态管理
@@ -266,16 +170,8 @@ export function TemplateMarket({ onTemplateSelect }: TemplateMarketProps) {
     useState<Template[]>(MOCK_TEMPLATES);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedIndustry, setSelectedIndustry] = useState("all");
-  const [selectedLevel, setSelectedLevel] = useState("all");
-  const [sortBy, setSortBy] = useState("popular");
-  const [showPremiumOnly, setShowPremiumOnly] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
-    null
-  );
-  const [likedTemplates, setLikedTemplates] = useState<Set<string>>(new Set());
 
-  // 过滤和排序模板
+  // 过滤模板
   useEffect(() => {
     let filtered = templates.filter((template) => {
       const matchesSearch =
@@ -289,104 +185,26 @@ export function TemplateMarket({ onTemplateSelect }: TemplateMarketProps) {
 
       const matchesCategory =
         selectedCategory === "all" || template.category === selectedCategory;
-      const matchesIndustry =
-        selectedIndustry === "all" ||
-        template.industry.includes(selectedIndustry);
-      const matchesLevel =
-        selectedLevel === "all" || template.level === selectedLevel;
-      const matchesPremium = !showPremiumOnly || template.isPremium;
 
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesIndustry &&
-        matchesLevel &&
-        matchesPremium
-      );
-    });
-
-    // 排序
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case "newest":
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        case "rating":
-          return b.rating - a.rating;
-        case "downloads":
-          return b.downloads - a.downloads;
-        case "popular":
-        default:
-          return b.downloads + b.likes * 10 - (a.downloads + a.likes * 10);
-      }
+      return matchesSearch && matchesCategory;
     });
 
     setFilteredTemplates(filtered);
-  }, [
-    templates,
-    searchQuery,
-    selectedCategory,
-    selectedIndustry,
-    selectedLevel,
-    sortBy,
-    showPremiumOnly,
-  ]);
+  }, [templates, searchQuery, selectedCategory]);
 
   // 使用模板
   const handleUseTemplate = React.useCallback(
     (template: Template) => {
-      dispatch(setCurrentResume(template.data as ResumeData));
+      actions.setCurrentResume(template.data as ResumeData);
       onTemplateSelect?.(template);
-
-      // 更新下载数
-      setTemplates((prev) =>
-        prev.map((t) =>
-          t.id === template.id ? { ...t, downloads: t.downloads + 1 } : t
-        )
-      );
 
       toast({
         title: "模板已应用",
         description: `"${template.name}" 模板已应用到编辑器中`,
       });
     },
-    [dispatch, onTemplateSelect, toast]
+    [actions, onTemplateSelect, toast]
   );
-
-  // 点赞模板
-  const toggleLike = (templateId: string) => {
-    const isLiked = likedTemplates.has(templateId);
-
-    if (isLiked) {
-      setLikedTemplates((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(templateId);
-        return newSet;
-      });
-    } else {
-      setLikedTemplates((prev) => {
-        const newSet = new Set(prev);
-        newSet.add(templateId);
-        return newSet;
-      });
-    }
-
-    // 更新点赞数
-    setTemplates((prev) =>
-      prev.map((t) =>
-        t.id === templateId
-          ? { ...t, likes: isLiked ? t.likes - 1 : t.likes + 1 }
-          : t
-      )
-    );
-  };
-
-  // 获取分类图标
-  const getCategoryIcon = (category: string) => {
-    const categoryData = CATEGORIES.find((c) => c.value === category);
-    return categoryData?.icon;
-  };
 
   return (
     <div className="space-y-6">
@@ -402,272 +220,115 @@ export function TemplateMarket({ onTemplateSelect }: TemplateMarketProps) {
       </div>
 
       {/* 搜索和过滤 */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            {/* 搜索框 */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="搜索模板名称、描述或标签..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-
-            {/* 过滤器 */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Select
-                value={selectedIndustry}
-                onValueChange={setSelectedIndustry}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="选择行业" />
-                </SelectTrigger>
-                <SelectContent>
-                  {INDUSTRIES.map((industry) => (
-                    <SelectItem key={industry.value} value={industry.value}>
-                      {industry.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={selectedLevel} onValueChange={setSelectedLevel}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择级别" />
-                </SelectTrigger>
-                <SelectContent>
-                  {LEVELS.map((level) => (
-                    <SelectItem key={level.value} value={level.value}>
-                      {level.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger>
-                  <SelectValue placeholder="排序方式" />
-                </SelectTrigger>
-                <SelectContent>
-                  {SORT_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Button
-                variant={showPremiumOnly ? "default" : "outline"}
-                onClick={() => setShowPremiumOnly(!showPremiumOnly)}
-                className="gap-2"
-              >
-                <Crown className="h-4 w-4" />
-                {showPremiumOnly ? "显示全部" : "仅高级"}
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* 分类标签 */}
-      <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-        <TabsList className="grid w-full grid-cols-5">
-          {CATEGORIES.map((category) => {
-            const Icon = category.icon;
-            return (
-              <TabsTrigger
-                key={category.value}
-                value={category.value}
-                className="gap-2"
-              >
-                {Icon && <Icon className="h-4 w-4" />}
-                {category.label}
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-      </Tabs>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="搜索模板..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="选择分类" />
+          </SelectTrigger>
+          <SelectContent>
+            {CATEGORIES.map((category) => (
+              <SelectItem key={category.value} value={category.value}>
+                <div className="flex items-center gap-2">
+                  {category.icon && <category.icon className="h-4 w-4" />}
+                  {category.label}
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       {/* 模板网格 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTemplates.map((template) => {
-          const CategoryIcon = getCategoryIcon(template.category);
-          const isLiked = likedTemplates.has(template.id);
-
-          return (
-            <Card
-              key={template.id}
-              className="group hover:shadow-lg transition-all duration-200"
-            >
-              <CardHeader className="p-0">
-                <div className="relative">
-                  {/* 模板缩略图 */}
-                  <div
-                    className="w-full h-48 bg-gradient-to-br rounded-t-lg flex items-center justify-center text-white font-bold text-lg"
-                    style={{
-                      background: `linear-gradient(135deg, ${template.color}, ${template.color}80)`,
-                    }}
-                  >
-                    {template.name}
+        {filteredTemplates.map((template) => (
+          <Card
+            key={template.id}
+            className="group hover:shadow-lg transition-shadow"
+          >
+            <CardHeader className="p-0">
+              <div className="relative aspect-[3/4] bg-gray-100 rounded-t-lg overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-white rounded-lg shadow-sm flex items-center justify-center mx-auto mb-2">
+                      <Award className="h-8 w-8 text-gray-400" />
+                    </div>
+                    <p className="text-sm text-gray-500">模板预览</p>
                   </div>
+                </div>
+                {template.isPremium && (
+                  <Badge className="absolute top-2 right-2 bg-yellow-500">
+                    <Crown className="h-3 w-3 mr-1" />
+                    Premium
+                  </Badge>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="space-y-3">
+                <div>
+                  <h3 className="font-semibold text-lg">{template.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {template.description}
+                  </p>
+                </div>
 
-                  {/* 高级标识 */}
-                  {template.isPremium && (
-                    <Badge className="absolute top-2 right-2 bg-yellow-500 text-yellow-900">
-                      <Crown className="h-3 w-3 mr-1" />
-                      高级
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="text-sm font-medium">
+                      {template.rating}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <Download className="h-4 w-4" />
+                    <span className="text-sm">{template.downloads}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <Heart className="h-4 w-4" />
+                    <span className="text-sm">{template.likes}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-1">
+                  {template.tags.slice(0, 3).map((tag) => (
+                    <Badge key={tag} variant="secondary" className="text-xs">
+                      {tag}
                     </Badge>
-                  )}
-
-                  {/* 悬停操作 */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg flex items-center justify-center gap-2">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button size="sm" variant="secondary">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-4xl">
-                        <DialogHeader>
-                          <DialogTitle>{template.name}</DialogTitle>
-                          <DialogDescription>
-                            {template.description}
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div
-                            className="w-full h-96 bg-gradient-to-br rounded-lg flex items-center justify-center text-white font-bold text-2xl"
-                            style={{
-                              background: `linear-gradient(135deg, ${template.color}, ${template.color}80)`,
-                            }}
-                          >
-                            {template.name} 预览
-                          </div>
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="outline"
-                              onClick={() => setSelectedTemplate(null)}
-                            >
-                              关闭
-                            </Button>
-                            <Button onClick={() => handleUseTemplate(template)}>
-                              使用此模板
-                            </Button>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    <Button
-                      size="sm"
-                      variant={isLiked ? "default" : "secondary"}
-                      onClick={() => toggleLike(template.id)}
-                    >
-                      <Heart
-                        className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`}
-                      />
-                    </Button>
-                  </div>
+                  ))}
                 </div>
-              </CardHeader>
 
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  {/* 模板信息 */}
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-semibold">{template.name}</h3>
-                      <div className="flex items-center gap-1">
-                        {CategoryIcon && (
-                          <CategoryIcon className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {template.description}
-                    </p>
-                  </div>
-
-                  {/* 标签 */}
-                  <div className="flex flex-wrap gap-1">
-                    {template.tags.slice(0, 3).map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  {/* 统计信息 */}
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1">
-                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                        {template.rating}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Download className="h-3 w-3" />
-                        {template.downloads}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Heart className="h-3 w-3" />
-                        {template.likes}
-                      </div>
-                    </div>
-
-                    {/* 作者信息 */}
-                    <div className="flex items-center gap-1">
-                      <div className="w-5 h-5 bg-gray-300 rounded-full" />
-                      <span className="text-xs">{template.author.name}</span>
-                      {template.author.verified && (
-                        <CheckCircle className="h-3 w-3 text-blue-500" />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* 操作按钮 */}
-                  <div className="flex gap-2 pt-2">
-                    <Button
-                      className="flex-1"
-                      onClick={() => handleUseTemplate(template)}
-                      disabled={template.isPremium}
-                    >
-                      {template.isPremium ? "需要高级版" : "使用模板"}
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+                <Button
+                  onClick={() => handleUseTemplate(template)}
+                  className="w-full"
+                  variant={template.isPremium ? "default" : "outline"}
+                >
+                  {template.isPremium ? "升级使用" : "使用模板"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* 空状态 */}
       {filteredTemplates.length === 0 && (
-        <Card>
-          <CardContent className="p-12 text-center">
-            <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-medium mb-2">未找到匹配的模板</h3>
-            <p className="text-muted-foreground mb-4">
-              尝试调整搜索条件或过滤器
-            </p>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedCategory("all");
-                setSelectedIndustry("all");
-                setSelectedLevel("all");
-                setShowPremiumOnly(false);
-              }}
-            >
-              清除所有过滤器
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="text-center py-12">
+          <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <Search className="h-8 w-8 text-gray-400" />
+          </div>
+          <h3 className="text-lg font-semibold mb-2">未找到匹配的模板</h3>
+          <p className="text-muted-foreground">
+            尝试调整搜索条件或浏览其他分类
+          </p>
+        </div>
       )}
     </div>
   );

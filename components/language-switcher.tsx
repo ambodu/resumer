@@ -1,27 +1,33 @@
 "use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Globe } from 'lucide-react';
-import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
-import { locales, type Locale } from '@/lib/i18n';
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Globe } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { locales, type Locale } from "@/lib/i18n";
 
 const languageNames = {
-  zh: '中文',
-  en: 'English'
+  zh: "中文",
+  en: "English",
 } as const;
 
-export function LanguageSwitcher() {
-  const locale = useLocale() as Locale;
+interface LanguageSwitcherProps {
+  currentLocale: string;
+}
+
+export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   const router = useRouter();
   const pathname = usePathname();
 
   const switchLanguage = (newLocale: Locale) => {
-    // Remove current locale from pathname
-    const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
-    // Add new locale to pathname
+    // 获取当前路径，移除语言前缀
+    const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, "");
+    // 构建新的路径
     const newPath = `/${newLocale}${pathWithoutLocale}`;
     router.push(newPath);
   };
@@ -29,7 +35,11 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white hover:bg-slate-700/50">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-muted-foreground hover:text-foreground"
+        >
           <Globe className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
@@ -38,7 +48,9 @@ export function LanguageSwitcher() {
           <DropdownMenuItem
             key={lang}
             onClick={() => switchLanguage(lang)}
-            className={locale === lang ? 'bg-blue-500/20 text-blue-300' : ''}
+            className={
+              currentLocale === lang ? "bg-primary/20 text-primary" : ""
+            }
           >
             {languageNames[lang]}
           </DropdownMenuItem>
