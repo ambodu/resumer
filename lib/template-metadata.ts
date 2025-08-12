@@ -1,4 +1,4 @@
-import { FileText, Code, BarChart3, Users, Palette, Briefcase } from "lucide-react";
+import { FileText, Code, BarChart3, Users, Briefcase } from "lucide-react";
 
 export interface TemplateMetadata {
   id: string;
@@ -29,7 +29,7 @@ export const templateMetadata: Record<string, TemplateMetadata> = {
     title: '现代设计师',
     description: '适合设计师和创意工作者的现代化模板',
     category: '设计',
-    icon: Palette,
+    icon: FileText,
     color: 'bg-blue-500',
     features: ['视觉突出', '创意布局', '作品展示'],
     difficulty: 'intermediate',

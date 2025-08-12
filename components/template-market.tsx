@@ -38,7 +38,7 @@ import {
   Briefcase,
   GraduationCap,
   Code,
-  Palette,
+  // Palette, // 临时移除
   TrendingUp,
   Users,
   Award,
@@ -155,7 +155,7 @@ const MOCK_TEMPLATES: Template[] = [
 const CATEGORIES = [
   { value: "all", label: "全部", icon: null },
   { value: "modern", label: "现代", icon: Zap },
-  { value: "creative", label: "创意", icon: Palette },
+  { value: "creative", label: "创意", icon: Zap },
   { value: "professional", label: "专业", icon: Briefcase },
   { value: "minimal", label: "极简", icon: Award },
 ];

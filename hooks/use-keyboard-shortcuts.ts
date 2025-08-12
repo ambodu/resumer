@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useCallback, useRef } from "react";
-import { useResumeActions } from "@/lib/hooks";
+import { useAppState } from "@/lib/app-hooks";
 import { useToast } from "@/components/ui/use-toast";
 
 interface KeyboardShortcut {
@@ -16,7 +16,7 @@ interface KeyboardShortcut {
 }
 
 export function useKeyboardShortcuts() {
-  const { saveResume } = useResumeActions();
+  const { actions } = useAppState();
   const { toast } = useToast();
   const isActiveRef = useRef(true);
 
@@ -27,7 +27,9 @@ export function useKeyboardShortcuts() {
       key: "s",
       ctrlKey: true,
       action: () => {
-        saveResume();
+        // 保存简历到本地存储
+        const resumeData = JSON.stringify(actions);
+        localStorage.setItem('resume-data', resumeData);
         toast({
           title: "简历已保存",
           description: "您的简历已自动保存到本地存储",

@@ -133,7 +133,7 @@ export function ResumeEditor({ resumeId, onSave }: ResumeEditorProps) {
             size="sm"
             onClick={() => setShowTemplateSelector(true)}
           >
-            <Palette className="w-4 h-4 mr-2" />
+            <FileText className="w-4 h-4 mr-2" />
             选择模板
           </Button>
         </div>

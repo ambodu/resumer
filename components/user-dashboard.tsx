@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useResumeState, useResumeActions } from "@/lib/hooks";
+import { useAppState, useResumeManager } from "@/lib/app-hooks";
 import { format } from "date-fns";
 import { zhCN, enUS } from "date-fns/locale";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
@@ -35,16 +35,15 @@ interface UserDashboardProps {
 
 export function UserDashboard({ locale }: UserDashboardProps) {
   const router = useRouter();
-  const { currentResume, savedResumes, lastSaved } = useResumeState();
-  const { saveResume, deleteResume, duplicateResume, setCurrentResume } =
-    useResumeActions();
+  const { currentResume, savedResumes, lastSaved, actions } = useAppState();
+  const { saveResume, deleteResume, duplicateResume } = useResumeManager();
 
   const [searchValue, setSearchValue] = useState("");
 
   const handleLoadResume = (resumeId: string) => {
     const resume = savedResumes.find((r) => r.id === resumeId);
     if (resume) {
-      setCurrentResume(resume);
+      actions.updateResume(resume);
       router.push(`/${locale}/editor`);
     }
   };

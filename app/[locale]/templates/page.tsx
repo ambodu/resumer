@@ -4,7 +4,7 @@ import { templateMetadata, templateCategories } from "@/lib/template-metadata";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { locales } from "@/lib/i18n";
-import { FileText, Users, Briefcase, Palette, Sparkles } from "lucide-react";
+import { FileText, Users, Briefcase, Sparkles } from "lucide-react";
 
 interface TemplatesPageProps {
   params: { locale: string };
@@ -51,7 +51,7 @@ export default function TemplatesPage({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center group">
                 <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 smooth-transition">
-                  <Palette className="h-8 w-8 text-blue-500" />
+                  <FileText className="h-8 w-8 text-blue-500" />
                 </div>
                 <h3 className="font-semibold mb-2 text-lg">专业设计</h3>
                 <p className="text-muted-foreground">

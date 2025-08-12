@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
-import { useResumeActions } from "@/lib/hooks";
+import { useAppState } from "@/lib/app-hooks";
 import { FileText, User, Briefcase, GraduationCap, Clock, Star, ArrowRight } from "lucide-react";
 import { templateMetadata } from "@/lib/template-metadata";
 import { cn } from "@/lib/utils";
@@ -20,11 +20,11 @@ export function TemplateCard({ template, templateId }: TemplateCardProps) {
   const router = useRouter();
   const params = useParams();
   const locale = params.locale as string;
-  const { setCurrentResume } = useResumeActions();
+  const { actions } = useAppState();
   const metadata = templateMetadata[templateId];
 
   const handleUseTemplate = () => {
-    setCurrentResume(template);
+    actions.updateResume(template);
     router.push(`/${locale}/editor`);
   };
 

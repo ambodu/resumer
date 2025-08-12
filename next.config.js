@@ -45,8 +45,8 @@ const nextConfig = {
 
   // 实验性功能
   experimental: {
-    // 优化CSS
-    optimizeCss: true,
+    // 优化CSS - 临时禁用
+    // optimizeCss: true,
     // 优化包导入
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
     // 启用Turbo
@@ -60,43 +60,45 @@ const nextConfig = {
     },
   },
 
-  // 安全头部配置
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "origin-when-cross-origin",
-          },
-          {
-            key: "X-DNS-Prefetch-Control",
-            value: "on",
-          },
-        ],
-      },
-    ];
-  },
+  // 安全头部配置 - 仅在非导出模式下使用
+  ...(process.env.NODE_ENV !== "production" && {
+    async headers() {
+      return [
+        {
+          source: "/(.*)",
+          headers: [
+            {
+              key: "X-Frame-Options",
+              value: "DENY",
+            },
+            {
+              key: "X-Content-Type-Options",
+              value: "nosniff",
+            },
+            {
+              key: "Referrer-Policy",
+              value: "origin-when-cross-origin",
+            },
+            {
+              key: "X-DNS-Prefetch-Control",
+              value: "on",
+            },
+          ],
+        },
+      ];
+    },
 
-  // 重定向配置
-  async redirects() {
-    return [
-      {
-        source: "/home",
-        destination: "/",
-        permanent: true,
-      },
-    ];
-  },
+    // 重定向配置 - 仅在非导出模式下使用
+    async redirects() {
+      return [
+        {
+          source: "/home",
+          destination: "/",
+          permanent: true,
+        },
+      ];
+    },
+  }),
 
   // Webpack 配置优化
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
@@ -132,7 +134,7 @@ const nextConfig = {
   // 只在生产构建时使用 dist 目录和静态导出
   ...(process.env.NODE_ENV === "production" && {
     distDir: "dist",
-    output: "export",
+    // output: "export", // 静态导出 - 临时禁用
   }),
 };
 
