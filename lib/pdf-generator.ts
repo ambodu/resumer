@@ -1,6 +1,7 @@
 "use client";
 
 import { ResumeData } from './types';
+import { pdfMakeGenerator } from './pdfmake-generator';
 
 // PDF生成配置
 interface PDFConfig {
@@ -39,8 +40,61 @@ export class PDFGenerator {
     this.config = { ...this.config, ...config };
   }
   
-  // 生成PDF（使用浏览器原生打印API）
-  public async generatePDF(element: HTMLElement, filename: string): Promise<void> {
+  // 生成PDF（使用pdfmake，支持可选择文本）
+  public async generatePDF(elementOrData: HTMLElement | ResumeData, options?: { filename?: string }): Promise<void> {
+    try {
+      // 如果传入的是ResumeData，直接使用pdfmake生成
+      if (this.isResumeData(elementOrData)) {
+        await pdfMakeGenerator.generatePDF(elementOrData, options?.filename);
+        return;
+      }
+      
+      // 如果传入的是HTMLElement，回退到原有方案
+      const filename = options?.filename || 'resume.pdf';
+      await this.generatePDFWithCanvas(elementOrData, filename);
+    } catch (error) {
+      console.error('PDF生成失败:', error);
+      throw new Error('PDF生成失败，请重试');
+    }
+  }
+  
+  // 类型检查辅助函数
+  private isResumeData(data: any): data is ResumeData {
+    return data && typeof data === 'object' && 'personalInfo' in data;
+  }
+  
+  // 使用pdfmake生成PDF（推荐方法）
+  public async generatePDFFromData(resumeData: ResumeData, filename?: string): Promise<void> {
+    try {
+      await pdfMakeGenerator.generatePDF(resumeData, filename);
+    } catch (error) {
+      console.error('PDF生成失败:', error);
+      throw new Error('PDF生成失败，请重试');
+    }
+  }
+  
+  // 预览PDF
+  public async previewPDF(resumeData: ResumeData): Promise<void> {
+    try {
+      await pdfMakeGenerator.previewPDF(resumeData);
+    } catch (error) {
+      console.error('PDF预览失败:', error);
+      throw new Error('PDF预览失败，请重试');
+    }
+  }
+  
+  // 生成PDF Blob
+  public async generatePDFBlob(resumeData: ResumeData): Promise<Blob> {
+    try {
+      return await pdfMakeGenerator.generatePDFBlob(resumeData);
+    } catch (error) {
+      console.error('PDF Blob生成失败:', error);
+      throw new Error('PDF生成失败，请重试');
+    }
+  }
+  
+  // 使用浏览器原生打印API（备用方案）
+  public async generatePDFWithPrint(element: HTMLElement, filename: string): Promise<void> {
     try {
       // 创建打印样式
       const printStyles = this.createPrintStyles();

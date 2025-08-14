@@ -3,6 +3,7 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useAppState } from "@/lib/app-hooks";
 import { useToast } from "@/components/ui/use-toast";
+import { pdfGenerator } from "@/lib/pdf-generator";
 
 interface KeyboardShortcut {
   key: string;
@@ -16,7 +17,7 @@ interface KeyboardShortcut {
 }
 
 export function useKeyboardShortcuts() {
-  const { actions } = useAppState();
+  const { actions, currentResume } = useAppState();
   const { toast } = useToast();
   const isActiveRef = useRef(true);
 
@@ -41,12 +42,33 @@ export function useKeyboardShortcuts() {
     {
       key: "p",
       ctrlKey: true,
-      action: () => {
-        // TODO: 实现PDF导出功能
-        toast({
-          title: "导出PDF",
-          description: "PDF导出功能正在开发中...",
-        });
+      action: async () => {
+        if (!currentResume) {
+          toast({
+            title: "导出失败",
+            description: "没有简历数据可导出",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        try {
+          await pdfGenerator.generatePDFFromData(
+            currentResume,
+            `${currentResume.personalInfo?.name || "简历"}.pdf`
+          );
+          toast({
+            title: "导出成功",
+            description: "PDF已成功下载",
+          });
+        } catch (error) {
+          console.error("PDF导出失败:", error);
+          toast({
+            title: "导出失败",
+            description: "PDF导出失败，请重试",
+            variant: "destructive",
+          });
+        }
       },
       description: "导出PDF",
       category: "文件操作",

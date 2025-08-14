@@ -37,13 +37,21 @@ export function SimpleResumeEditor() {
   }, [currentResume, actions]);
 
   const handleDownload = useCallback(async () => {
+    if (!currentResume) {
+      toast.error("没有简历数据可导出");
+      return;
+    }
+    
     try {
-      await pdfGenerator.generatePDF("resume-preview", {
-        filename: `${currentResume?.personalInfo?.name || "简历"}.pdf`,
-      });
+      // 使用新的pdfmake生成器直接从数据生成PDF
+      await pdfGenerator.generatePDFFromData(
+        currentResume,
+        `${currentResume.personalInfo?.name || "简历"}.pdf`
+      );
       toast.success("PDF下载成功");
     } catch (error) {
-      toast.error("PDF生成失败");
+      console.error("PDF生成失败:", error);
+      toast.error("PDF生成失败，请重试");
     }
   }, [currentResume]);
 
