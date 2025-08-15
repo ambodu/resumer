@@ -265,7 +265,7 @@ export function TemplateMarket({ onTemplateSelect }: TemplateMarketProps) {
                   </div>
                 </div>
                 {template.isPremium && (
-                  <Badge className="absolute top-2 right-2 bg-yellow-500">
+                  <Badge className="absolute top-2 right-2 bg-blue-500 text-white">
                     <Crown className="h-3 w-3 mr-1" />
                     Premium
                   </Badge>

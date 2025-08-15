@@ -34,9 +34,9 @@ export function TemplateCard({ template, templateId }: TemplateCardProps) {
 
   const IconComponent = metadata.icon;
   const difficultyColors = {
-    beginner: 'bg-green-100 text-green-800',
-    intermediate: 'bg-yellow-100 text-yellow-800',
-    advanced: 'bg-red-100 text-red-800'
+    beginner: 'bg-blue-100 text-blue-800',
+    intermediate: 'bg-blue-200 text-blue-900',
+    advanced: 'bg-blue-300 text-blue-900'
   };
 
   return (

@@ -25,6 +25,7 @@ import { pdfGenerator } from "@/lib/pdf-generator";
 export function SimpleResumeEditor() {
   const { currentResume, actions, hasUnsavedChanges, isSaving } = useAppState();
   const [activeSection, setActiveSection] = useState("personal");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleSave = useCallback(async () => {
     if (!currentResume) return;
@@ -42,18 +43,31 @@ export function SimpleResumeEditor() {
       return;
     }
     
+    if (isDownloading) {
+      toast.warning("PDF正在生成中，请稍候...");
+      return;
+    }
+    
     try {
+      setIsDownloading(true);
+      toast.loading("正在生成PDF，请稍候...", { id: "pdf-generating" });
+      
       // 使用新的pdfmake生成器直接从数据生成PDF
       await pdfGenerator.generatePDFFromData(
         currentResume,
         `${currentResume.personalInfo?.name || "简历"}.pdf`
       );
+      
+      toast.dismiss("pdf-generating");
       toast.success("PDF下载成功");
     } catch (error) {
       console.error("PDF生成失败:", error);
+      toast.dismiss("pdf-generating");
       toast.error("PDF生成失败，请重试");
+    } finally {
+      setIsDownloading(false);
     }
-  }, [currentResume]);
+  }, [currentResume, isDownloading]);
 
   if (!currentResume) {
     return <div className="p-8 text-center">加载中...</div>;
@@ -80,13 +94,20 @@ export function SimpleResumeEditor() {
                   onClick={handleSave}
                   disabled={!hasUnsavedChanges || isSaving}
                   size="sm"
+                  className="btn-animate btn-blue"
                 >
                   <Save className="h-4 w-4 mr-2" />
                   {isSaving ? "保存中..." : "保存"}
                 </Button>
-                <Button onClick={handleDownload} variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-2" />
-                  下载PDF
+                <Button 
+                  onClick={handleDownload} 
+                  variant="outline" 
+                  size="sm"
+                  disabled={isDownloading}
+                  className="btn-animate btn-blue-outline"
+                >
+                  <Download className={`h-4 w-4 mr-2 ${isDownloading ? 'animate-spin' : ''}`} />
+                  {isDownloading ? "生成中..." : "下载PDF"}
                 </Button>
               </div>
             </div>
@@ -102,7 +123,9 @@ export function SimpleResumeEditor() {
                 key={section.id}
                 variant={activeSection === section.id ? "default" : "outline"}
                 onClick={() => setActiveSection(section.id)}
-                className="flex-shrink-0"
+                className={`flex-shrink-0 btn-animate ${
+                  activeSection === section.id ? "btn-blue" : "btn-blue-outline"
+                }`}
                 size="sm"
               >
                 <IconComponent className="h-4 w-4 mr-2" />
@@ -237,7 +260,7 @@ function ExperienceEditor({ data, onChange }: any) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">工作经历</h3>
-        <Button onClick={addExperience} size="sm">
+        <Button onClick={addExperience} size="sm" className="btn-animate btn-blue">
           <Plus className="h-4 w-4 mr-2" />
           添加
         </Button>
@@ -251,6 +274,7 @@ function ExperienceEditor({ data, onChange }: any) {
                 onClick={() => removeExperience(index)}
                 variant="ghost"
                 size="sm"
+                className="btn-animate hover:bg-red-50 hover:text-red-600"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -342,7 +366,7 @@ function EducationEditor({ data, onChange }: any) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">教育背景</h3>
-        <Button onClick={addEducation} size="sm">
+        <Button onClick={addEducation} size="sm" className="btn-animate btn-blue">
           <Plus className="h-4 w-4 mr-2" />
           添加
         </Button>
@@ -356,6 +380,7 @@ function EducationEditor({ data, onChange }: any) {
                 onClick={() => removeEducation(index)}
                 variant="ghost"
                 size="sm"
+                className="btn-animate hover:bg-red-50 hover:text-red-600"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -433,7 +458,7 @@ function SkillsEditor({ data, onChange }: any) {
           placeholder="输入技能名称"
           onKeyPress={(e) => e.key === "Enter" && addSkill()}
         />
-        <Button onClick={addSkill} size="sm">
+        <Button onClick={addSkill} size="sm" className="btn-animate btn-blue">
           <Plus className="h-4 w-4" />
         </Button>
       </div>
@@ -443,7 +468,7 @@ function SkillsEditor({ data, onChange }: any) {
             {skill}
             <button
               onClick={() => removeSkill(index)}
-              className="ml-1 hover:text-red-500"
+              className="ml-1 hover:text-red-500 btn-animate transition-colors duration-200"
             >
               <Trash2 className="h-3 w-3" />
             </button>

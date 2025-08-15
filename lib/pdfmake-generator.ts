@@ -5,16 +5,89 @@ import { ResumeData, PersonalInfo, Experience, Education } from './types';
 
 // 动态导入pdfmake以避免SSR问题
 let pdfMake: any = null;
+let isInitializing = false;
 
 const initializePdfMake = async () => {
-  if (typeof window !== 'undefined' && !pdfMake) {
-    const pdfMakeModule = await import('pdfmake/build/pdfmake');
-    const pdfFonts = await import('pdfmake/build/vfs_fonts');
-    
-    pdfMake = pdfMakeModule.default || pdfMakeModule;
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  if (typeof window === 'undefined') {
+    throw new Error('PDF生成器只能在浏览器环境中使用');
   }
-  return pdfMake;
+  
+  if (pdfMake) {
+    return pdfMake;
+  }
+  
+  if (isInitializing) {
+    // 等待初始化完成
+    while (isInitializing) {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    return pdfMake;
+  }
+  
+  try {
+    isInitializing = true;
+    
+    try {
+      // 动态导入pdfmake
+      const pdfMakeModule = await import('pdfmake/build/pdfmake');
+      pdfMake = pdfMakeModule.default || pdfMakeModule;
+      
+      if (!pdfMake) {
+        throw new Error('pdfMake模块加载失败');
+      }
+      
+      // 动态导入字体文件
+      const pdfFonts = await import('pdfmake/build/vfs_fonts');
+      
+      // 尝试不同的字体文件结构
+      if (pdfFonts.pdfMake && pdfFonts.pdfMake.vfs) {
+        pdfMake.vfs = pdfFonts.pdfMake.vfs;
+      } else if (pdfFonts.default && pdfFonts.default.pdfMake && pdfFonts.default.pdfMake.vfs) {
+        pdfMake.vfs = pdfFonts.default.pdfMake.vfs;
+      } else if (pdfFonts.vfs) {
+        pdfMake.vfs = pdfFonts.vfs;
+      } else if (pdfFonts.default && pdfFonts.default.vfs) {
+        pdfMake.vfs = pdfFonts.default.vfs;
+      } else {
+        // 如果都没有，尝试直接使用pdfFonts
+        console.warn('使用备用字体设置方案');
+        pdfMake.vfs = pdfFonts;
+      }
+      
+      // 设置默认字体
+      pdfMake.fonts = {
+        Roboto: {
+          normal: 'Roboto-Regular.ttf',
+          bold: 'Roboto-Medium.ttf',
+          italics: 'Roboto-Italic.ttf',
+          bolditalics: 'Roboto-MediumItalic.ttf'
+        }
+      };
+      
+    } catch (fontError) {
+      console.warn('字体文件加载失败，使用无字体模式:', fontError);
+      // 如果字体加载失败，设置一个空的vfs
+      pdfMake.vfs = {};
+      pdfMake.fonts = {
+        Roboto: {
+          normal: 'Helvetica',
+          bold: 'Helvetica-Bold',
+          italics: 'Helvetica-Oblique',
+          bolditalics: 'Helvetica-BoldOblique'
+        }
+      };
+    }
+    
+    console.log('pdfMake初始化成功');
+    return pdfMake;
+    
+  } catch (error) {
+    console.error('pdfMake初始化失败:', error);
+    pdfMake = null;
+    throw new Error(`PDF生成器初始化失败: ${error instanceof Error ? error.message : '未知错误'}`);
+  } finally {
+    isInitializing = false;
+  }
 };
 
 // PDF样式定义

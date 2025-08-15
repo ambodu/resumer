@@ -18,23 +18,14 @@ export * from "./ui/error-boundary";
 
 // Business Components
 export { Navbar } from "./navbar";
-export { default as Footer } from "./footer";
 export { LanguageSwitcher } from "./language-switcher";
-
-// I18n Components
-export { I18nWrapper } from "./providers/i18n-wrapper";
 
 // Editor Components
 export { ResumeEditor } from "./editor/resume-editor";
-export { ResumeForm } from "./editor/resume-form";
-export { ResumePreview } from "./editor/resume-preview";
 
 // Template Components
 export { TemplateCard } from "./templates/template-card";
 export { TemplateSelector } from "./templates/template-selector";
-
-// SEO Components
-export { SEOOptimizer } from "./seo-optimizer";
 
 // Other Components
 export { TemplateMarket } from "./template-market";

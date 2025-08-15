@@ -18,8 +18,8 @@
     --secondary-foreground: 210 20% 20%;
     --muted: 210 20% 96%;
     --muted-foreground: 210 20% 45%;
-    --accent: 45 100% 60%;
-    --accent-foreground: 45 100% 10%;
+    --accent: 200 100% 70%;
+    --accent-foreground: 200 100% 15%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 210 16% 93%;
@@ -41,8 +41,8 @@
     --secondary-foreground: 210 20% 98%;
     --muted: 210 9% 31%;
     --muted-foreground: 210 7% 56%;
-    --accent: 45 100% 60%;
-    --accent-foreground: 45 100% 10%;
+    --accent: 200 100% 70%;
+    --accent-foreground: 200 100% 15%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 210 9% 31%;
@@ -63,6 +63,7 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    padding-top: 6rem;
   }
 
   h1,
@@ -109,7 +110,11 @@
   }
 
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-blue-200;
+  }
+
+  .card-hover:hover {
+    box-shadow: 0 10px 25px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
   }
 
   .btn-primary {
@@ -131,5 +136,33 @@
   .editor-shadow-lg {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* 按钮点击动画效果 */
+  .btn-animate {
+    @apply transition-all duration-200 ease-in-out;
+    transform-origin: center;
+  }
+
+  .btn-animate:hover {
+    @apply scale-105;
+  }
+
+  .btn-animate:active {
+    @apply scale-95;
+    transition-duration: 100ms;
+  }
+
+  .btn-animate:focus {
+    @apply ring-2 ring-blue-400 ring-offset-2;
+  }
+
+  /* 浅蓝色主题按钮 */
+  .btn-blue {
+    @apply bg-blue-400 text-white hover:bg-blue-500 focus:ring-blue-400;
+  }
+
+  .btn-blue-outline {
+    @apply border-blue-400 text-blue-600 hover:bg-blue-50 focus:ring-blue-400;
   }
 }

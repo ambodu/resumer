@@ -19,12 +19,8 @@ export {
 export * from "./templates";
 export * from "./template-metadata";
 
-// Performance and monitoring
-export * from "./performance";
+
 // 新的优化后的模块
 export * from "./storage-manager";
 export * from "./pdf-generator";
 export * from "./app-hooks";
-
-// Hooks
-export * from "./hooks";

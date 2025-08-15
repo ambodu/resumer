@@ -30,7 +30,7 @@ export default function TemplatesPage({
       </div>
 
       {/* Templates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 justify-items-center">
         {allTemplates.map(([key, template]) => {
           return (
             <TemplateCard key={key} templateId={key} template={template} />
